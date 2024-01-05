@@ -16,7 +16,7 @@ ViewTicket::ViewTicket()
 	_hlBtnsDB.append(_btnSend); 
 
 	_btnSend.setType(gui::Button::Type::Default);
-
+	//ok
 	gui::GridComposer gc(_gl);
 
 	gc.appendRow(_typelbl);
