@@ -78,6 +78,7 @@ bool ViewTicket::sendTicket() {
 		return false;
 
 	}
+	//okej
 	tr.commit();
 
 	_tableTickets.reload();
