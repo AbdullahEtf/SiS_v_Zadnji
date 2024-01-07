@@ -28,6 +28,7 @@ protected:
     gui::Image _imgExamAtt;
     gui::Image _imgTicket;
     gui::Image _imgCourseenr;
+    gui::Image _imgSAOTicket;
     StatusBar _statBar;
 
 
@@ -66,6 +67,7 @@ protected:
     bool showExamSignUpView();
     bool showTicketView();
     bool showCourseEnrollView();
+    bool showTicketForSAOView();
     //bool onClick(gui::Dialog* pDlg, td::UINT4 dlgID) override;
 
 

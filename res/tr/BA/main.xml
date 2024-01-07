@@ -50,6 +50,7 @@
 		<Res id="viewCurriculum" tr="Kurikulum"/>
 		<Res id="viewExamAtt" tr="Prijave na ispit"/>
 		<Res id="viewTicket" tr="Karta"></Res>
+		<Res id="viewTicketForSAO" tr="Karta za SAO" ></Res>
 		<Res id="viewCourseEnroll" tr="Predmeti upis"/>
 		<Res id="Withdraw" tr="Ispiši"/>
 
@@ -73,6 +74,8 @@
 		<Res id="save" tr="Snimi"/>
 		<Res id="Enroll" tr="Upiši"/>
 		<Res id="EnrollTT" tr="Upiši studenta"/>
+		<Res id="Open" tr="Otvori"></Res>
+		<Res id="OpenTT" tr="Otvori"></Res>
 		
 		<Res id="code" tr="Kod"/>
 		<Res id="dep" tr="Smjer"/>
@@ -166,7 +169,9 @@
 		<Res id="ectsTT" tr="ECTS bodovi"/>
 		<Res id="izborniTT" tr="Izborni"/>
 		<Res id="maxbrTT" tr="Maksinalan broj studenata na predmetu"/>
-		
+		<Res id="Ticket" tr="Karta"></Res>
+		<Res id="Student's ticket" tr="Studentova karta:"></Res>
+		<Res id="Received tickets from students:" tr="Primljene karte od studenata"></Res>
 		
 		<Res id="tobeenrolledtocourse" tr="Studenti koji imaju mogućnost upisa"/>
 		<Res id="enrolledtocourse" tr="Studenti upisani na predmet"/>
@@ -177,7 +182,7 @@
 		
 		<Res id="saveSureTicket" tr="Jeste li sigurni da želite poslati zahtjev?"/>
 		<Res id="alertPB" tr="Već postoji korisnik sa unesenom šifrom."/>
-		<Res id="typeOfMessage" tr="Vrsta zahtjeva:"/>
+		<Res id="typeOfTicket" tr="Vrsta zahtjeva:"/>
 		<Res id="subject" tr="Naslov:"/>
 		<Res id="send" tr="Pošalji"/>
 		<Res id="sendRequestTT" tr="Pošalji trenutni zahtjev"/>

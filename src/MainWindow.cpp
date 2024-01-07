@@ -18,10 +18,11 @@
 #include "ViewTicket.h"
 #include "ViewCurriculumDialog.h"
 #include "DialogCurriculum.h"
-
-
+#include "ViewTicketForSAO.h"
+#include "BackView.h"
 #include <rpt/IResources.h>
 #include "NavigatorViewActivity.h"
+
 
 MainWindow::MainWindow()
     : gui::Window(gui::Geometry(100, 100, 1000, 600))
@@ -32,12 +33,13 @@ MainWindow::MainWindow()
     , _imgClassroom(":complex")
     , _imgTStaff(":complex")
     , _imgActivity(":complex")
-    ,_imgEnroll(":complex")
-    ,_imgAttendance(":complex")
-    ,_imgCurr(":complex")
+    , _imgEnroll(":complex")
+    , _imgAttendance(":complex")
+    , _imgCurr(":complex")
     , _imgExamAtt(":complex")
     , _imgTicket(":pencil")
     , _imgCourseenr(":plus")
+   , _imgSAOTicket(":complex")
 {
     setTitle(tr("SIS"));
     _mainMenuBar.setAsMain(this);
@@ -239,7 +241,7 @@ bool MainWindow::onActionItem(gui::ActionItemDescriptor& aiDesc)
         break; case 110: return showExamSignUpView();
         break; case 120: return showCourseEnrollView();
         break; case 130: return showTicketView();
-
+        break; case 140: return showTicketForSAOView();
 
 
                       
@@ -430,6 +432,24 @@ bool MainWindow::showTicketView()
 
     ViewTicket* pView = new ViewTicket;
     _mainView.addView(pView, tr("viewTicket"), &_imgTicket);
+    return true;
+}
+
+bool MainWindow::showTicketForSAOView()
+{
+
+    /*if (!Globals::isSAO)
+    {
+        showAlert(tr("AccessNotAllowed"), "");
+        return true;
+    }*/
+    if (focusOnViewPositionWithID(View_TICKETSAO))
+        return true;
+    ViewTicketForSAO* pView = new ViewTicketForSAO;
+    _mainView.addView(pView, tr("viewTicketForSAO"), &_imgSAOTicket);
+    
+
+ 
     return true;
 }
 
