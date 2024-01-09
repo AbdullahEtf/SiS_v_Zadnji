@@ -2,9 +2,27 @@
 #include "upload.h"
 #include "ViewIDs.h"
 #include <td/Types.h>
+#include <gui/Window.h>
+#include "MenuBar.h"
+#include <gui/FileDialog.h>
+#include <gui/Alert.h>
+#include <fo/FileOperations.h>
+#include <td/BLOB.h>
 
 
+td::INT4 ViewUpload::findMaxID() // Eminina funkcija :-D
+{
+    dp::IStatementPtr pSelect = dp::getMainDatabase()->createStatement("select ifnull(max(ID_Predaje), 0) as maxid from Predaja");
+    dp::Columns pColumns = pSelect->allocBindColumns(1);
+    td::INT4 maxID;
+    pColumns << "maxid" << maxID;
+    if (!pSelect->execute())
+        return false;
+    if (!pSelect->moveNext())
+        return false;
 
+    return ++maxID;
+}
 ViewUpload::ViewUpload()
     : _lblName(tr("namee:")),
 
@@ -19,8 +37,9 @@ ViewUpload::ViewUpload()
     , _btnReload(tr("Reload"))
     , _btnEnroll(tr("Enroll"))
     , _btnSend(tr("Send"))
+    , _btnUpload(tr("Upload"))
     //, _btnWithdraw(tr("Withdraw"), tr("WithdrawTT"))
-    , _gl(6, 6)
+    , _gl(7, 6)
     , _db(dp::create(dp::IDatabase::ConnType::CT_SQLITE, dp::IDatabase::ServerType::SER_SQLITE3))
 {
 
@@ -30,6 +49,7 @@ ViewUpload::ViewUpload()
     // _hlBtnsDB.appendSpace(20);
     // _hlBtnsDB.append(_btnWithdraw);
     _hlBtnsDB.append(_btnSend);
+    _hlBtnsDB.append(_btnUpload);
    _btnDEnroll.setType(gui::Button::Type::Default);
     _btnEnroll.setType(gui::Button::Type::Constructive);
     // _btnWithdraw.setType(gui::Button::Type::Destructive);
@@ -49,7 +69,9 @@ ViewUpload::ViewUpload()
 
     gc.appendRow(_lblTable2, 0);
     gc.appendRow(_table2, 0);
+    gc.appendRow(_textEdit, 0);
     gc.appendRow(_hlBtnsDB, 0);
+
 
     gui::View::setLayout(&_gl);
 
@@ -225,6 +247,10 @@ bool ViewUpload::onClick(gui::Button* pBtn)
 
     }
 
+    if (pBtn == &_btnUpload) {
+        showOpenFileDialog();
+    }
+
 //    if (pBtn == &_btnEnroll)
 //    {
 //        saveData1();
@@ -248,5 +274,84 @@ bool ViewUpload::onClick(gui::Button* pBtn)
 //    }
 
     return false;
+
+}
+
+void ViewUpload::showOpenFileDialog()
+{
+    //create OpenFile dialog and open it
+    auto pFD = new gui::OpenFileDialog(this, tr("OpenF"), { {tr("TxtDocs"),"*.txt"}, {tr("PDFDocs"),"*.pdf"}, {tr("JPGSlike"),"*.jpg"}, {tr("PNGSlike"),"*.png"} });
+
+    //pFD->openModalWithID(WndID::FileOpenDlg, this);
+    pFD->openModal([this](gui::FileDialog* pFD)
+        {
+            auto status = pFD->getStatus();
+            if (status == gui::FileDialog::Status::OK)
+            {
+                td::String strFileFullPath = pFD->getFileName();
+                td::String strContent;
+
+                if (fo::loadFileContent(strFileFullPath, strContent))
+                {
+                    gui::TextEdit* pTE = &_textEdit;
+                    pTE->setText(strContent);
+
+                    fo::fs::path homePath;
+                    mu::getHomePath(homePath);
+                    fo::fs::path testDBPath = (homePath / "Work/CPProjects/SiS_v_Zadnji/Temp_Baza.db");
+
+                    dp::IDatabasePtr pDB = dp::create(dp::IDatabase::ConnType::CT_SQLITE, dp::IDatabase::ServerType::SER_SQLITE3);
+                    //dp::getMainDatabase() if I were connected to DB before
+
+                    if (!pDB->connect(testDBPath.string().c_str()))
+                    {
+                        assert(false && "Nema baze...");
+                        return;
+                    }
+                    ////just for test, i always delete everything in the table, so it doesent get huge
+                    //dp::IStatementPtr pStatDel = pDB->createStatement("delete from TestBLOBAttachment");
+
+
+                    dp::IStatementPtr pStatIns = pDB->createStatement("insert into Predaja(ID_Predaje, ID_Roka, ID_Studenta, Datoteka, Datum_Predaje, Vrijeme_Predaje, Predano) values(?, ?, ?, ?, ?, ?, ?)");
+                    dp::Params paramsInsert(pStatIns->allocParams());
+
+                    td::INT4 id, idr, ids, date, time, predano;
+                    fo::fs::path filePath(strFileFullPath.c_str());
+                    td::String strFileName = filePath.filename().string();//daj mi naziv fajla
+                    td::String fileExtension = filePath.filename().extension().string(); //daj mi tip fajla
+
+                    //tip BLOBa
+                    td::BLOB::Type typeFile = td::BLOB::Type::TYPE_BINARY_UNKNOWN;
+                    if (fileExtension.compareConstStr(".txt"))
+                        typeFile = td::BLOB::Type::TYPE_TXT;
+                    else if (fileExtension.compareConstStr(".pdf"))
+                        typeFile = td::BLOB::Type::TYPE_PDF;
+                    else if (fileExtension.compareConstStr(".jpg"))
+                        typeFile = td::BLOB::Type::TYPE_JPG;
+                    else if (fileExtension.compareConstStr(".png"))
+                        typeFile = td::BLOB::Type::TYPE_PNG;
+
+
+                    td::BLOB dataIn(td::BLOB::SRC_FILE, 16384U, typeFile);
+                    id = findMaxID();
+                    //dodati u tabeli u bazi naziv datoteke
+                    paramsInsert << id << dp::toNCh(strFileName, 100) << dataIn;//prilagoditi da se slaze sa insertom
+
+                    //Neophodno, sa ove lokacije (strFileFullPath) se uzima BLOB
+                    if (!dataIn.setInFileName(strFileFullPath))
+                    {
+                        gui::Alert::show(tr("Error"), tr("Did you delete selected file?"));
+                        return;
+                    }
+
+                    dp::Transaction transaction(pDB);
+
+                    //bool delOK = pStatDel->execute();
+                    bool insOK = pStatIns->execute();
+
+                    bool commitOK = transaction.commit();
+                }
+            }
+        });
 
 }

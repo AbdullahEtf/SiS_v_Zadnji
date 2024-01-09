@@ -1,9 +1,11 @@
 #include "ViewTasks.h"
+#include "SendMessage.h"
 #include <gui/FileDialog.h>
 #include <gui/Alert.h>
 #include <fo/FileOperations.h>
 #include <td/BLOB.h>
 #include <gui/Window.h>
+#include "ViewIDs.h"
 
 //#include "Globals.h"
 
@@ -16,12 +18,14 @@ ViewTasks::ViewTasks(td::INT4 SubjectID) :
     _lblType(tr("ActivityNameForDateTime")),
     _type(td::int4),
     _lblCName(tr("Course:")),
+    _lblTable2(tr("Docs:")),
     _btnAdd(tr("add"), tr("AddTT"))
     //, _btnUpdate(tr("Update"), tr("UpdateTT"))
     , _btnDelete(tr("Delete"), tr("DeleteTT"))
     , _btnSave(tr("Save"), tr("SaveTT"))
-    , _hlBtnsDB(5)
-    , _gl(10, 4)
+    , _btnAddFile(tr("AddFile"), tr("AddFileTT"))
+    , _hlBtnsDB(6)
+    , _gl(7, 4)
     , _SubjectID(SubjectID)
 {
 
@@ -59,7 +63,12 @@ ViewTasks::ViewTasks(td::INT4 SubjectID) :
     gc.appendCol(_LblTimeBegin);
     gc.appendCol(_timeB);
 
+    gc.appendRow(_btnAddFile);
+
     gc.appendRow(_table, 0);
+    gc.appendRow(_lblTable2);
+    gc.appendRow(_textEdit, 0);
+
     gc.appendRow(_hlBtnsDB, 0);
 
     gui::View::setLayout(&_gl);
@@ -415,9 +424,27 @@ bool ViewTasks::onClick(gui::Button* pBtn)
         _itemsToInsert.push_back(itemid);
         return true;
     }
+    if (pBtn == &_btnAddFile) {
+        gui::TextEdit* pTE = (*this).getTextEdit();
+        bool isEmpty = pTE->isEmpty();
+        if (!isEmpty)
+        {
+            //TODO: Add translation for strings
+            //example of async question (_callBackReloadAnswer is called after user picks the answer via buttons)
+#ifdef USE_CALLBACKS
+            showYesNoQuestionAsync(&_callBackReloadAnswer, "Replace data", "Text edit is not empty. Are you sure you want to replace it with new content?", tr("Yes"), tr("No"));
+#else
+            showYesNoQuestionAsync(QuestionIDA::OpenFile, this, tr("Replace data"), tr("Text edit is not empty. Are you sure you want to replace it with new content?"), tr("Yes"), tr("No"));
+#endif
+        }
+        else
+            showOpenFileDialog();
+        return true;
+    }
     if (pBtn == &_btnSave) {
-        saveData();
-        //  _table.reload();
+        showYesNoQuestionAsync(QuestionIDDDAAAA::Saveee, this, tr("alert"), tr("saveSure"), tr("Yes"), tr("No"));
+
+        return true;
     }
 
     return false;
@@ -513,7 +540,7 @@ void ViewTasks::showOpenFileDialog()
 
 
                     td::BLOB dataIn(td::BLOB::SRC_FILE, 16384U, typeFile);
-                    static td::INT4 ID, ID_predaje;
+                    static td::INT4 ID=1, ID_predaje=1;
                     paramsInsert <<ID <<dataIn<<ID_predaje;
                     ID++; ID_predaje++;
                     //Neophodno, sa ove lokacije (strFileFullPath) se uzima BLOB
@@ -540,38 +567,40 @@ gui::TextEdit* ViewTasks::getTextEdit()
     return &_textEdit;
 }
 
-//
-//bool ViewTasks::onAnswer(td::UINT4 questionID, gui::Alert::Answer answer)//??
-//{
-//    if ((QuestionIDDDAAA)questionID == QuestionIDDDAAA::Saveee)
-//    {
-//        if (answer == gui::Alert::Answer::Yes) {
-//            saveData();
-//
-//            showAlert(tr("succes"), tr("succesEE"));
-//            if (answer == gui::Alert::Answer::Yes) {
-//                saveData();
-//                //unutar button save se detektuje promjena i salje se poruka od sistema za sve studente
-////sad bi trebao da bude poseban button za poruke na koji ce se otvoriti novi prozorcic koji ce prikazati tabelu Messages gdje je id korisnika jednak user id poruke
-//                std::vector<td::INT4> userIDs;
-//                //svim studentima
-//                dp::IStatementPtr pSelect = dp::getMainDatabase()->createStatement("SELECT ID FROM KORISNICI WHERE PozicijaID=5");
-//                dp::Columns pCols = pSelect->allocBindColumns(1);
-//                td::INT4 id;
-//                pCols << "ID" << id;
-//                if (!pSelect->execute())
-//                    return false;
-//                while (pSelect->moveNext())
-//                {
-//                    userIDs.push_back(id);
-//                }
-//                td::String naslov = "Aktivnost!";
-//                td::String poruka = "Registrovana je promjena za odredjenu aktivnost! ";
-//                MsgSender msg;
-//                msg.sendSystemMsgtoUsers(naslov, poruka, userIDs);
-//            }
-//        }
-//        return true;
-//    }
-//    return false;
-//}
+
+bool ViewTasks::onAnswer(td::UINT4 questionID, gui::Alert::Answer answer)//??
+{
+    if ((QuestionIDDDAAAA)questionID == QuestionIDDDAAAA::Saveee)
+    {
+        if (answer == gui::Alert::Answer::Yes) {
+            saveData();
+
+            showAlert(tr("succes"), tr("succesEE"));
+            if (answer == gui::Alert::Answer::Yes) {
+                saveData();
+                //unutar button save se detektuje promjena i salje se poruka od sistema za sve studente
+//sad bi trebao da bude poseban button za poruke na koji ce se otvoriti novi prozorcic koji ce prikazati tabelu Messages gdje je id korisnika jednak user id poruke
+                std::vector<td::INT4> userIDs;
+                //svim studentima
+                dp::IStatementPtr pSelect = dp::getMainDatabase()->createStatement("SELECT ID FROM KORISNICI WHERE PozicijaID=5");
+                dp::Columns pCols = pSelect->allocBindColumns(1);
+                td::INT4 id;
+                pCols << "ID" << id;
+                if (!pSelect->execute())
+                    return false;
+                while (pSelect->moveNext())
+                {
+                    userIDs.push_back(id);
+                }
+                td::String naslov = "Imate novi zadatak!";
+                td::String poruka = "Registrovana je promjena iz predmeta ";
+                poruka += _cName.getText();
+                poruka += ".";
+                MsgSender msg;
+                msg.sendSystemMsgtoUsers(naslov, poruka, userIDs);
+            }
+        }
+        return true;
+    }
+    return false;
+}

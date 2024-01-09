@@ -26,6 +26,9 @@
 #include <gui/ImageView.h>
 #include <rnd/MinMax.h>
 
+enum class QuestionIDDDAAAA : td::UINT2 { Saveee };
+enum class QuestionIDA : td::UINT4 { OpenFile = 1, SaveFile };
+
 class ViewTasks : public gui::View
 {
 private:
@@ -43,10 +46,13 @@ protected:
     gui::Label _lblCName;
     gui::LineEdit _cName;
 
+    gui::Label _lblTable2;
+    gui::TableEdit _table2;
 
     gui::HorizontalLayout _hlBtnsDB;
     gui::Button _btnAdd;
     gui::Button _btnDelete;
+    gui::Button _btnAddFile;
     //  gui::Button _btnUpdate;
     gui::Button _btnSave;
 
@@ -80,5 +86,5 @@ protected:
     void openFile(gui::FileDialog* pFD);
     void showOpenFileDialog();
     gui::TextEdit* getTextEdit();
-    /*bool onAnswer(td::UINT4 questionID, gui::Alert::Answer answer);*/
+    bool onAnswer(td::UINT4 questionID, gui::Alert::Answer answer);
 };
