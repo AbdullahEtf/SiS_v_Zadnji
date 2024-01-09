@@ -50,4 +50,6 @@ public:
 protected:
     void SetCurrentData();
     void populateData();
+    void initTable(int type);
+   
 };

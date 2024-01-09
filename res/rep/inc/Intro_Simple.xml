@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DocHeader layout="vertical" designWidth="170" height="14" hAlign="center" vAlign="center" font="DocuDesc">	
+	<Text font="DocuName" width="170" height="6" name="#DocType" hScale="1"/>		
+	<Text font="DocuDesc" width="170" height="6" name="#DocID" hScale="1"/>		
+	
+</DocHeader>

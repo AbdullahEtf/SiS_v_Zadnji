@@ -7,6 +7,7 @@
 		<Res id="prezime" tr="Prezime"/>
 		<Res id="indeks" tr="Indeks"/>
 		<Res id="NameAktivnosti" tr="Vrsta provjere"/>
+		<Res id="Grade" tr="Ocjena"/>
 
 	</Translations>
 </DevRes>

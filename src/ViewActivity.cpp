@@ -126,9 +126,8 @@ ViewActivity::ViewActivity(td::INT4 SubjectID) : _db(dp::getMainDatabase()) //ov
 , _btnDelete(tr("Delete"))
 , _btnUpdate(tr("Update"))
 , _btnInsert(tr("Insert"))
-, _btnShowWindow(tr("Messages"))
 , _hlBtns(8) //nisam siguran koliko ce biti dugmadi
-, _gl(6, 4)
+, _gl(5, 4)
 , _paramFrom(0)
 , _paramTo(100)
 //ne bi trebalo da jos ista fali
@@ -159,7 +158,6 @@ ViewActivity::ViewActivity(td::INT4 SubjectID) : _db(dp::getMainDatabase()) //ov
     gc.appendCol(_desAct);
     gc.appendCol(_lblPoints);
     gc.appendCol(_points);
-    gc.appendRow(_btnShowWindow);
 
     
     gc.appendRow(_table, 0);
@@ -201,17 +199,18 @@ void ViewActivity::SetCurrentSubject() {
     {
         auto pDB = dp::getMainDatabase();
 
-        _pDS = _db->createDataSet("select a.ID_Aktivnosti, a.Naziv_Aktivnosti, p.Naziv_Predmeta, a.Procenat, a.Opis_Aktivnosti, v.Naziv ,a.Tip_Aktivnosti, a.ID_Predmeta from Aktivnosti a, Predmet p, VrstaAktivnosti v where v.ID= p.ID_Predmeta=a.ID_Predmeta and p.ID_Predmeta = ?", dp::IDataSet::Execution::EX_MULT);
+        _pDS = _db->createDataSet("select a.ID_Aktivnosti, a.Naziv_Aktivnosti, p.Naziv_Predmeta, a.Procenat, a.Opis_Aktivnosti, v.Naziv ,a.Tip_Aktivnosti, a.ID_Predmeta from Aktivnosti a, Predmet p, VrstaAktivnosti v where p.ID_Predmeta = ? and p.ID_Predmeta = a.ID_Predmeta and a.Tip_Aktivnosti = v.ID", dp::IDataSet::Execution::EX_MULT);
         dp::Params params(_pDS->allocParams());
         params << _idP;
 
            //specify columns to obtain from the data provider
-        dp::DSColumns cols(_pDS->allocBindColumns(7));
+        dp::DSColumns cols(_pDS->allocBindColumns(8));
         cols << "ID_Aktivnosti" << td::int4
             << "Naziv_Aktivnosti" << td::string8
             << "Naziv_Predmeta" << td::string8
             << "Procenat" << td::decimal2
             << "Opis_Aktivnosti" << td::string8
+            << "Naziv" << td::string8
             << "Tip_Aktivnosti" << td::int4
             << "ID_Predmeta" << td::int4;
 
@@ -339,6 +338,7 @@ void ViewActivity::SetCurrentSubject() {
     {
         td::Variant val;
         td::Variant x = i;
+        td::Variant var;
         row[0].setValue(x);
 
         _name.getValue(val);
@@ -352,9 +352,29 @@ void ViewActivity::SetCurrentSubject() {
         _desAct.getValue(val);
         row[4].setValue(val);
         _type.getValue(val);
-        row[5].setValue(val);
+        row[6].setValue(val);
+        td::INT4 a = val.i4Val();
+        SetActivityTypeName(var, a);
+        row[5].setValue(var);
+
     }
     //-----------------------------------------------
+    void ViewActivity::SetActivityTypeName(td::Variant& val, td::INT4 br) 
+    {
+        dp::IStatementPtr pSelect = dp::getMainDatabase()->createStatement("SELECT Naziv FROM VrstaAktivnosti WHERE ID=?");     
+        dp::Params parDS(pSelect->allocParams());          
+        parDS << br;     
+        dp::Columns pCols = pSelect->allocBindColumns(1);     
+        td::String Aktivnost;     
+        pCols << "Naziv" << Aktivnost;     
+        if (!pSelect->execute()) 
+        {         
+            Aktivnost = "Haos";     
+        }     
+        if (!pSelect->moveNext())
+            return;     
+        val = Aktivnost; 
+    }
 
     //-------Ova funkcija moze umjesto funkcije canAdd()------
     bool ViewActivity::doesIDexist(td::INT4 id) // redundant funkcija za provjeru... imaju dvije tri...
@@ -476,6 +496,9 @@ void ViewActivity::SetCurrentSubject() {
                 showAlert(tr("alert"), tr("alertPB"));
                 return true;
             }
+            if (!canAdd())
+                return true;
+
             _table.beginUpdate();
             auto& row = _table.getEmptyRow();
             populateDSRow(row, itemid);
@@ -492,20 +515,8 @@ void ViewActivity::SetCurrentSubject() {
         {
             showYesNoQuestionAsync(QuestionIDDDAAA::Saveee, this, tr("alert"), tr("saveSure"), tr("Yes"), tr("No"));
 
-
-
             return true;
         }
-
-        if (&_btnShowWindow) {
-            gui::Window* pParentWnd = getParentWindow();
-            auto pWnd = new WindowMessages(pParentWnd);
-            pWnd->keepOnTopOfParent();
-            pWnd->open();
-            return true;
-        }
-
-
         return false;
     }
 
@@ -547,6 +558,12 @@ void ViewActivity::SetCurrentSubject() {
     bool ViewActivity::canAdd()// redundant funkcija za provjeru... imaju dvije tri...
     {
         td::Variant id = _id.getValue();
+        td::Variant point = _points.getValue();
+        td::Decimal2 x = point.dec2Val();
+        if (x > 10000)
+        {
+            return false;
+        }
 
         dp::IDataSet* pDS = _table.getDataSet();
         for (size_t i = 0; i < pDS->getNumberOfRows(); ++i)
@@ -557,6 +574,21 @@ void ViewActivity::SetCurrentSubject() {
                 return false;
             }
         }
+
+        dp::IStatementPtr pSelect = dp::getMainDatabase()->createStatement("select sum(Procenat) as suma from Aktivnosti where ID_Predmeta = ?");
+        dp::Params params(pSelect->allocParams());
+        params << _idP;
+        dp::Columns pCols = pSelect->allocBindColumns(1);
+        td::Decimal2 sum;
+        pCols << "suma" << sum;
+        if (!pSelect->execute())
+            return false;
+        if (!pSelect->moveNext())
+            return false;
+
+        if (sum + x > 10000)
+            return false;
+
         return true;
     }
 
@@ -588,7 +620,7 @@ void ViewActivity::SetCurrentSubject() {
             _points.setValue(val);
             val = row[4];
             _desAct.setValue(val);
-            val = row[5];
+            val = row[6];
             _type.setValue(val);
 
             return true;

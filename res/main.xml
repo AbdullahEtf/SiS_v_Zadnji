@@ -12,7 +12,8 @@
 		<Res id="TransCost" path = "Work/CPProjects/SiS_v_Zadnji/res/Icons/transportCostXL.png"/>
 
 		<Res id="imgAttendance" path = "Work/CPProjects/SiS_v_Zadnji/res/Icons/imgAttendance.png"/>
-			<Res id="imgSubject" path = "Work/CPProjects/SiS_v_Zadnji/res/Icons/imgSubject.png"/>
+		<Res id="imgSubject" path = "Work/CPProjects/SiS_v_Zadnji/res/Icons/imgSubject.png"/>
+		<Res id="imgActivity" path = "Work/CPProjects/SiS_v_Zadnji/res/Icons/imgActivity.png"/>
 		
 		<Res id="complex" path = "Work/CPProjects/SiS_v_Zadnji/res/Icons/bh_flag.png"/>
 		<Res id="pencil" path = "Work/CPProjects/SiS_v_Zadnji/res/Icons/update64.png"/>

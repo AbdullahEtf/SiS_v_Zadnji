@@ -1,4 +1,12 @@
 #include "ViewTasks.h"
+#include "SendMessage.h"
+#include <gui/FileDialog.h>
+#include <gui/Alert.h>
+#include <fo/FileOperations.h>
+#include <td/BLOB.h>
+#include <gui/Window.h>
+#include "ViewIDs.h"
+
 //#include "Globals.h"
 
 
@@ -7,19 +15,17 @@ ViewTasks::ViewTasks(td::INT4 SubjectID) :
     _LblActName(tr("Activity")),
     _LblDateBegin(tr("ActivityDateB")),
     _LblTimeBegin(tr("ActivityTimeB")),
-    _LblDateEnd(tr("ActivityDateE")),
-    _LblTimeEnd(tr("ActivityTimeE")),
-    _LblDateFinal(tr("ActivityDateF")),
-    _LblTimeFinal(tr("ActivityTimeF")),
     _lblType(tr("ActivityNameForDateTime")),
     _type(td::int4),
     _lblCName(tr("Course:")),
+    _lblTable2(tr("Docs:")),
     _btnAdd(tr("add"), tr("AddTT"))
     //, _btnUpdate(tr("Update"), tr("UpdateTT"))
     , _btnDelete(tr("Delete"), tr("DeleteTT"))
     , _btnSave(tr("Save"), tr("SaveTT"))
-    , _hlBtnsDB(5)
-    , _gl(10, 4)
+    , _btnAddFile(tr("AddFile"), tr("AddFileTT"))
+    , _hlBtnsDB(6)
+    , _gl(7, 4)
     , _SubjectID(SubjectID)
 {
 
@@ -57,19 +63,12 @@ ViewTasks::ViewTasks(td::INT4 SubjectID) :
     gc.appendCol(_LblTimeBegin);
     gc.appendCol(_timeB);
 
-    gc.appendRow(_LblDateEnd);
-    gc.appendCol(_dateE);
-
-    gc.appendCol(_LblTimeEnd);
-    gc.appendCol(_timeE);
-
-    gc.appendRow(_LblDateFinal);
-    gc.appendCol(_dateF);
-
-    gc.appendCol(_LblTimeFinal);
-    gc.appendCol(_timeF);
+    gc.appendRow(_btnAddFile);
 
     gc.appendRow(_table, 0);
+    gc.appendRow(_lblTable2);
+    gc.appendRow(_textEdit, 0);
+
     gc.appendRow(_hlBtnsDB, 0);
 
     gui::View::setLayout(&_gl);
@@ -175,20 +174,6 @@ bool ViewTasks::onChangedSelection(gui::TableEdit* pTE) {
         val = row[1];
         _timeB.setValue(val);
 
-        val = row[2];
-        _dateE.setValue(val);
-
-        val = row[3];
-        _timeE.setValue(val);
-
-        val = row[4];
-
-        _dateF.setValue(val);
-
-        val = row[5];
-
-        _timeF.setValue(val);
-
         val = row[7];
         td::Variant var;
         _type.setValue(val);
@@ -206,18 +191,6 @@ void ViewTasks::populateDSRow(dp::IDataSet::Row& row, td::INT4 i)
 
     _timeB.getValue(val);
     row[1].setValue(val);
-
-    _dateE.getValue(val);
-    row[2].setValue(val);
-
-    _timeE.getValue(val);
-    row[3].setValue(val);
-
-    _dateF.getValue(val);
-    row[4].setValue(val);
-
-    _timeF.getValue(val);
-    row[5].setValue(val);
 
     td::Variant x = i;
     row[6].setValue(x);
@@ -451,9 +424,27 @@ bool ViewTasks::onClick(gui::Button* pBtn)
         _itemsToInsert.push_back(itemid);
         return true;
     }
+    if (pBtn == &_btnAddFile) {
+        gui::TextEdit* pTE = (*this).getTextEdit();
+        bool isEmpty = pTE->isEmpty();
+        if (!isEmpty)
+        {
+            //TODO: Add translation for strings
+            //example of async question (_callBackReloadAnswer is called after user picks the answer via buttons)
+#ifdef USE_CALLBACKS
+            showYesNoQuestionAsync(&_callBackReloadAnswer, "Replace data", "Text edit is not empty. Are you sure you want to replace it with new content?", tr("Yes"), tr("No"));
+#else
+            showYesNoQuestionAsync(QuestionIDA::OpenFile, this, tr("Replace data"), tr("Text edit is not empty. Are you sure you want to replace it with new content?"), tr("Yes"), tr("No"));
+#endif
+        }
+        else
+            showOpenFileDialog();
+        return true;
+    }
     if (pBtn == &_btnSave) {
-        saveData();
-        //  _table.reload();
+        showYesNoQuestionAsync(QuestionIDDDAAAA::Saveee, this, tr("alert"), tr("saveSure"), tr("Yes"), tr("No"));
+
+        return true;
     }
 
     return false;
@@ -474,4 +465,142 @@ td::INT4 ViewTasks::getIDfromTable(int rowID)
     dp::IDataSet* pDS = _table.getDataSet();
     auto& row = pDS->getRow(rowID);
     return row[6].i4Val();
+}
+
+void ViewTasks::openFile(gui::FileDialog* pFD)
+{
+    auto status = pFD->getStatus();
+    if (status == gui::FileDialog::Status::OK)
+    {
+        td::String strFileName = pFD->getFileName();
+        td::String strContent;
+
+        if (fo::loadFileContent(strFileName, strContent))
+        {
+            gui::TextEdit* pTE = (*this).getTextEdit();
+            pTE->setText(strContent);
+        }
+    }
+}
+
+void ViewTasks::showOpenFileDialog()
+{
+    //create OpenFile dialog and open it
+    auto pFD = new gui::OpenFileDialog(this, tr("OpenF"), { {tr("TxtDocs"),"*.txt"}, {tr("PDFDocs"),"*.pdf"}, {tr("JPGSlike"),"*.jpg"}, {tr("PNGSlike"),"*.png"} });
+#ifdef USE_CALLBACKS
+    pFD->openModal(&_callBackOpenFileDlg);
+#else
+    //pFD->openModalWithID(WndID::FileOpenDlg, this);
+    pFD->openModal([this](gui::FileDialog* pFD)
+        {
+            auto status = pFD->getStatus();
+            if (status == gui::FileDialog::Status::OK)
+            {
+                td::String strFileFullPath = pFD->getFileName();
+                td::String strContent;
+
+                if (fo::loadFileContent(strFileFullPath, strContent))
+                {
+                    gui::TextEdit* pTE = (*this).getTextEdit();
+                    pTE->setText(strContent);
+
+                    fo::fs::path homePath;
+                    mu::getHomePath(homePath);
+                    fo::fs::path testDBPath = (homePath / "other_bin/TestData/natGUITest/Test.db");
+
+                    dp::IDatabasePtr pDB = dp::create(dp::IDatabase::ConnType::CT_SQLITE, dp::IDatabase::ServerType::SER_SQLITE3);
+                    //dp::getMainDatabase() if I were connected to DB before
+
+                    if (!pDB->connect(testDBPath.string().c_str()))
+                    {
+                        assert(false && "Nema baze...");
+                        return;
+                    }
+                    //just for test, i always delete everything in the table, so it doesent get huge
+                   /* dp::IStatementPtr pStatDel = pDB->createStatement("delete from TestBLOBAttachment");*/
+
+
+                    dp::IStatementPtr pStatIns = pDB->createStatement("insert into DokumentiOpenPredaja(ID, Dokumenti, ID_Predaje) values(?, ?, ?)");
+                    dp::Params paramsInsert(pStatIns->allocParams());
+
+                    fo::fs::path filePath(strFileFullPath.c_str());
+                    //td::String strFileName = filePath.filename().string();//daj mi naziv fajla
+                    td::String fileExtension = filePath.filename().extension().string(); //daj mi tip fajla
+
+                    //tip BLOBa
+                    td::BLOB::Type typeFile = td::BLOB::Type::TYPE_BINARY_UNKNOWN;
+                    if (fileExtension.compareConstStr(".txt"))
+                        typeFile = td::BLOB::Type::TYPE_TXT;
+                    else if (fileExtension.compareConstStr(".pdf"))
+                        typeFile = td::BLOB::Type::TYPE_PDF;
+                    else if (fileExtension.compareConstStr(".jpg"))
+                        typeFile = td::BLOB::Type::TYPE_JPG;
+                    else if (fileExtension.compareConstStr(".png"))
+                        typeFile = td::BLOB::Type::TYPE_PNG;
+
+
+                    td::BLOB dataIn(td::BLOB::SRC_FILE, 16384U, typeFile);
+                    static td::INT4 ID=1, ID_predaje=1;
+                    paramsInsert <<ID <<dataIn<<ID_predaje;
+                    ID++; ID_predaje++;
+                    //Neophodno, sa ove lokacije (strFileFullPath) se uzima BLOB
+                    if (!dataIn.setInFileName(strFileFullPath))
+                    {
+                        gui::Alert::show(tr("Error"), tr("Did you delete the selected file?"));
+                        return;
+                    }
+
+                    dp::Transaction transaction(pDB);
+
+                    //bool delOK = pStatDel->execute();
+                    bool insOK = pStatIns->execute();
+
+                    bool commitOK = transaction.commit();
+                }
+            }
+        });
+#endif
+}
+
+gui::TextEdit* ViewTasks::getTextEdit()
+{
+    return &_textEdit;
+}
+
+
+bool ViewTasks::onAnswer(td::UINT4 questionID, gui::Alert::Answer answer)//??
+{
+    if ((QuestionIDDDAAAA)questionID == QuestionIDDDAAAA::Saveee)
+    {
+        if (answer == gui::Alert::Answer::Yes) {
+            saveData();
+
+            showAlert(tr("succes"), tr("succesEE"));
+            if (answer == gui::Alert::Answer::Yes) {
+                saveData();
+                //unutar button save se detektuje promjena i salje se poruka od sistema za sve studente
+//sad bi trebao da bude poseban button za poruke na koji ce se otvoriti novi prozorcic koji ce prikazati tabelu Messages gdje je id korisnika jednak user id poruke
+                std::vector<td::INT4> userIDs;
+                //svim studentima
+                dp::IStatementPtr pSelect = dp::getMainDatabase()->createStatement("SELECT ID FROM KORISNICI WHERE PozicijaID=5");
+                dp::Columns pCols = pSelect->allocBindColumns(1);
+                td::INT4 id;
+                pCols << "ID" << id;
+                if (!pSelect->execute())
+                    return false;
+                while (pSelect->moveNext())
+                {
+                    userIDs.push_back(id);
+                }
+                td::String naslov = "Imate novi zadatak!";
+                td::String poruka = "Registrovana je promjena iz predmeta ";
+                poruka += _cName.getText();
+                poruka += ".";
+                MsgSender msg;
+                msg.sendSystemMsgtoUsers(naslov, poruka, userIDs);
+            }
+        }
+        return true;
+    }
+    return false;
 }

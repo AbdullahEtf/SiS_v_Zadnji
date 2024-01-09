@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PageFooter layout="vertical" designWidth="170"  height="5">
+	<Line lineWidth="0.2" lineStyle="solid" width="170" height="0" hScale="1"/>	
+</PageFooter>

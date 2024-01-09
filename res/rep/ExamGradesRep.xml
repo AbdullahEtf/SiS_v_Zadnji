@@ -8,7 +8,9 @@
 				<TrText hAlign="left" width="20" name="ime"/>
 				<TrText hAlign="left" width="50" name="prezime"/>
 				<TrText hAlign="left" width="50" name="Indeks"/>
-				<TrText hAlign="left" width="50" name="NameAktivnosti"/>
+				<TrText hAlign="left" width="25" name="NameAktivnosti"/>
+				<TrText hAlign="right" width="25" name="Grade"/>
+
 
 			</Row>
 		</Header>
@@ -18,7 +20,9 @@
 				<Text hAlign="left"  width="20" name="Ime"/>
 				<Text hAlign="left"  width="50" name="Prezime"/>				
 				<Text hAlign="left"  width="50" name="Indeks"/>				
-				<Text hAlign="left"  width="50" name="Naziv_Aktivnosti"/>
+				<Text hAlign="left"  width="25" name="Naziv_Aktivnosti"/>
+				<Text hAlign="right"  width="25" name="Ocjena"/>
+
 			</Row>
 		</Body>
 		<Footer layout="vertical" height="0.4" backClr="BackFoot" font="BodyFoot">

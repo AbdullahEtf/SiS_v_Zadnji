@@ -57,6 +57,7 @@ insert into VrstaAktivnosti values (1,'Ispit');
 insert into VrstaAktivnosti values (2,'Zadaca');
 insert into VrstaAktivnosti values (3,'Projekat');
 insert into VrstaAktivnosti values (4,'Ostalo');
+insert into VrstaAktivnosti(ID, Naziv) values (5, 'LAB')
 
 insert into Aktivnosti (ID_Aktivnosti,ID_Predmeta,Procenat, Naziv_Aktivnosti,Opis_Aktivnosti, Tip_Aktivnosti) values (2, 4, 20, 'drugi parcijalni', 'nesto1',1);
 insert into Aktivnosti (ID_Aktivnosti,ID_Predmeta,Procenat, Naziv_Aktivnosti,Opis_Aktivnosti, Tip_Aktivnosti) values (3, 2, 26, 'zadaca 1', 'nesto2', 2);
@@ -64,6 +65,7 @@ insert into Aktivnosti (ID_Aktivnosti,ID_Predmeta,Procenat, Naziv_Aktivnosti,Opi
 insert into Aktivnosti (ID_Aktivnosti,ID_Predmeta,Procenat, Naziv_Aktivnosti,Opis_Aktivnosti, Tip_Aktivnosti) values (5, 1, 90, 'integralni', 'nesto4', 1);
 insert into Aktivnosti (ID_Aktivnosti,ID_Predmeta,Procenat, Naziv_Aktivnosti,Opis_Aktivnosti, Tip_Aktivnosti) values (1, 3, 50, 'prvi parcijalni', 'nesto5', 1);
 insert into Aktivnosti values(6, 3, 40, 'Projekat Zamger', 'Izrada studentskog sistema', 3);
+insert into Aktivnosti values(7, 3, 15, 'labaratorijska vjezba', 'nesto', 5);
 
 insert into PolazniciAktivnosti values (2,4);
 insert into PolazniciAktivnosti values (2,1);
@@ -83,11 +85,21 @@ INSERT INTO SAOTicket (ID,Ticket) VALUES (1,'Molba');
 INSERT INTO SAOTicket  (ID,Ticket) VALUES (2,'Žalba');
 INSERT INTO SAOTicket  (ID,Ticket) VALUES (3,'Pitanje');
 
-INSERT into Rokovi (ID_Roka, ID_Aktivnosti, Datum_Pocetka, Vrijeme_Pocetka, Datum_Kraja, Vrijeme_Kraja,Datum_Prijave, Vrijeme_Prijave, ID_Predmeta) values(1,5,20231229,090000,20231231,235959,2555562,111427,1);
-INSERT into Rokovi (ID_Roka, ID_Aktivnosti, Datum_Pocetka, Vrijeme_Pocetka, Datum_Kraja, Vrijeme_Kraja,Datum_Prijave, Vrijeme_Prijave, ID_Predmeta)values(2,1,20220609,113000,20220610,235959,545256,112023,2);
-INSERT into Rokovi (ID_Roka, ID_Aktivnosti, Datum_Pocetka, Vrijeme_Pocetka, Datum_Kraja, Vrijeme_Kraja,Datum_Prijave, Vrijeme_Prijave, ID_Predmeta)values(3,2,20230210,090000,20230211,235959,515245,090705,3);
-INSERT into Rokovi (ID_Roka, ID_Aktivnosti, Datum_Pocetka, Vrijeme_Pocetka, Datum_Kraja, Vrijeme_Kraja,Datum_Prijave, Vrijeme_Prijave, ID_Predmeta)values(4,5,20230303,090000,20230303,235959,515585,111111,4);
+INSERT into Rokovi (ID_Roka, ID_Aktivnosti, Datum_Pocetka, Vrijeme_Pocetka, Datum_Kraja, Vrijeme_Kraja,Datum_Prijave, Vrijeme_Prijave, ID_Predmeta) values(1,5,20231229,090000,0,0,2555562,111427,1);
+INSERT into Rokovi (ID_Roka, ID_Aktivnosti, Datum_Pocetka, Vrijeme_Pocetka, Datum_Kraja, Vrijeme_Kraja,Datum_Prijave, Vrijeme_Prijave, ID_Predmeta) values(2,1,20220609,113000,0,0,545256,112023,2);
+INSERT into Rokovi (ID_Roka, ID_Aktivnosti, Datum_Pocetka, Vrijeme_Pocetka, Datum_Kraja, Vrijeme_Kraja,Datum_Prijave, Vrijeme_Prijave, ID_Predmeta) values(3,2,20230210,90000,0,0,515245,90705,3);
+INSERT into Rokovi (ID_Roka, ID_Aktivnosti, Datum_Pocetka, Vrijeme_Pocetka, Datum_Kraja, Vrijeme_Kraja,Datum_Prijave, Vrijeme_Prijave, ID_Predmeta) values(4,5,20230303,90000,0,0,515585,111111,4);
+INSERT into Rokovi (ID_Roka, ID_Aktivnosti, Datum_Pocetka, Vrijeme_Pocetka, Datum_Kraja, Vrijeme_Kraja,Datum_Prijave, Vrijeme_Prijave, ID_Predmeta) values(5,3,0,0,20220609,113000,0,0,2);
+INSERT into Rokovi (ID_Roka, ID_Aktivnosti, Datum_Pocetka, Vrijeme_Pocetka, Datum_Kraja, Vrijeme_Kraja,Datum_Prijave, Vrijeme_Prijave, ID_Predmeta) values(6,7,0,0,20230210,9000,0,112023,3);
 
-
-
+INSERT into Predaja (ID_Predaje,ID_Roka, ID_studenta,Datoteka, Datum_Predaje, Vrijeme_Predaje, Predano) values(1,6,5,'lab1',0,0,0);
+INSERT into Predaja (ID_Predaje,ID_Roka, ID_studenta,Datoteka, Datum_Predaje, Vrijeme_Predaje, Predano) values(2,5,5,'dz1',0,0,0);
+INSERT into Predaja (ID_Predaje,ID_Roka, ID_studenta,Datoteka, Datum_Predaje, Vrijeme_Predaje, Predano) values(3,5,5,'dz2',20220604,174601,1);
+INSERT into Predaja (ID_Predaje,ID_Roka, ID_studenta,Datoteka, Datum_Predaje, Vrijeme_Predaje, Predano) values(4,6,5,'lab2',20230205,205904,1);
+INSERT into Predaja (ID_Predaje,ID_Roka, ID_studenta,Datoteka, Datum_Predaje, Vrijeme_Predaje, Predano) values(5,6,5,'lab4',0,0,0);
+INSERT into Predaja (ID_Predaje,ID_Roka, ID_studenta,Datoteka, Datum_Predaje, Vrijeme_Predaje, Predano) values(6,5,5,'dz3',0,0,0);
+INSERT into Predaja (ID_Predaje,ID_Roka, ID_studenta,Datoteka, Datum_Predaje, Vrijeme_Predaje, Predano) values(7,5,5,'dz4',0,0,0);
+INSERT into Predaja (ID_Predaje,ID_Roka, ID_studenta,Datoteka, Datum_Predaje, Vrijeme_Predaje, Predano) values(8,5,5,'dz5',20220607,174601,1);
+INSERT into Predaja (ID_Predaje,ID_Roka, ID_studenta,Datoteka, Datum_Predaje, Vrijeme_Predaje, Predano) values(9,6,5,'lab5',20230207,152904,1);
+INSERT into Predaja (ID_Predaje,ID_Roka, ID_studenta,Datoteka, Datum_Predaje, Vrijeme_Predaje, Predano) values(10,6,5,'lab3',20230206,192304,1);
 

@@ -51,6 +51,7 @@
 		<Res id="viewExamAtt" tr="Prijave na ispit"/>
 		<Res id="viewTicket" tr="Karta"></Res>
 		<Res id="viewCourseEnroll" tr="Predmeti upis"/>
+		<Res id="viewMessages" tr="Obavještenja"/>
 		<Res id="Withdraw" tr="Ispiši"/>
 
 		<Res id="ExamAttendanceRep" tr="Prijave na ispit"/>
@@ -77,7 +78,7 @@
 		<Res id="code" tr="Kod"/>
 		<Res id="dep" tr="Smjer"/>
 		<Res id="year" tr="Godina studija:"/>
-		<Res id="ects" tr="ECTS kredita:"/>
+		
 		<Res id="TStaff" tr="Nastavno osoblje"/>
 		<Res id="maxatt" tr="Maksimalan broj studenata"/>
 		<Res id="elective" tr="Izborni"/>
@@ -100,7 +101,7 @@
 		<Res id="semesterFalse" tr="Pogrešno odabran semestar."/>
 		
 		
-		<Res id="IDUser" tr="Šifra"/>
+		
 		<Res id="nameUser" tr="Ime"/>
 		<Res id="addressUser" tr="Adresa"/>
 		<Res id="surnameUser" tr="Prezime"/>
@@ -136,7 +137,7 @@
 		<Res id="No" tr="Ne"/>
                         <Res id="username" tr="Korisničko ime:"/>
                         <Res id="password" tr="Šifra:"/>
-                        <Res id="viewAttendance" tr="Prisustvo"/>
+                       
                         <Res id="NumSeats" tr="Broj mjesta"/>
                         <Res id="Location" tr="Lokacija"/>
                         <Res id="Type" tr="Tip"/>
@@ -153,11 +154,11 @@
                          <Res id="StatRole" tr="Uloga:"/>
                          <Res id="Subject" tr="Predmet"/>
                             <Res id="alertPr" tr="Vec ste unijeli prisustvo ovog studenta za ovaj termin"/>
+							<Res id="tablePresent" tr="Prisutni za ovaj termin:"/>
+							<Res id="alertNoTerm" tr="Niste odabrali ni jedan termin"/>
 		
-		<Res id="succes" tr="Uspješna registracija!"/>
-		<Res id="newF" tr="Novi fakultet"/>
-		<Res id="Yes" tr="Da"/>
-		<Res id="No" tr="Ne"/>
+		
+		
 		
 		<Res id="courseCode:" tr="Šifra predmeta:"/>
 		<Res id="courseID:" tr="ID predmeta:"/>
@@ -166,10 +167,10 @@
 		<Res id="userName:" tr="Ime:"/>
 		<Res id="userLName:" tr="Prezime:"/>
 		<Res id="deleteAll" tr="Izbriši sve"/>
-		<Res id="add" tr="Dodaj"/>
+		
 		<Res id="nameC:" tr="Naziv:"/>
 		<Res id="sifraP:" tr="Šifra predmeta:"/>
-		<Res id="dep:" tr="Smjer:"/>
+		
 		<Res id="semestar:" tr="Semestar:"/>
 		<Res id="ects:" tr="ECTS bodovi:"/>
 		<Res id="elective:" tr="Izborni:"/>
@@ -188,7 +189,26 @@
 		<Res id="ectsTT" tr="ECTS bodovi"/>
 		<Res id="izborniTT" tr="Izborni"/>
 		<Res id="maxbrTT" tr="Maksinalan broj studenata na predmetu"/>
-		
+
+		<Res id="ID" tr="ID"/>
+		<Res id="Subject" tr="Predmet poruke"/>
+		<Res id="AuthorID" tr="AutorID"/>
+		<Res id="Prezime" tr="Prezime"/>
+		<Res id="Ime" tr="Ime"/>
+		<Res id="Datum" tr="Datum"/>
+		<Res id="Vrijeme" tr="Vrijeme"/>
+		<Res id="Poruke" tr="Poruke"/>
+		<Res id="IDTT" tr="ID"/>
+		<Res id="SubjectTT" tr="Predmet poruke"/>
+		<Res id="AuthorIDTT" tr="AutorID"/>
+		<Res id="PrezimeTT" tr="Prezime"/>
+		<Res id="ImeTT" tr="Ime"/>
+		<Res id="DatumTT" tr="Datum"/>
+		<Res id="VrijemeTT" tr="Vrijeme"/>
+		<Res id="PorukeTT" tr="Poruke"/>
+		<Res id="AddFile" tr="Dodaj dokument"/>
+		<Res id="AddFileTT" tr="Dodaj dokument"/>
+		<Res id="Docs:" tr="Dokumenti:"/>
 		
 		<Res id="tobeenrolledtocourse" tr="Studenti koji imaju mogućnost upisa"/>
 		<Res id="enrolledtocourse" tr="Studenti upisani na predmet"/>
@@ -198,7 +218,7 @@
 		
 		
 		<Res id="saveSureTicket" tr="Jeste li sigurni da želite poslati zahtjev?"/>
-		<Res id="alertPB" tr="Već postoji korisnik sa unesenom šifrom."/>
+		
 		<Res id="typeOfMessage" tr="Vrsta zahtjeva:"/>
 		<Res id="subject" tr="Naslov:"/>
 		<Res id="send" tr="Pošalji"/>
@@ -212,7 +232,7 @@
 		<Res id="Options" tr="Opcije"/>
 		<!--Login-->
         <Res id = "WrongPass" tr = "Pogresna sifra!"/>
-		<Res id = "EnterCorrPass" tr = "Ukucajte isravnu sifru"/>
+		<Res id = "EnterCorrPass" tr = "Ukucajte ispravnu sifru"/>
 		<!--Logout-->
         <Res id = "logout" tr = "Odjava"/>
 		<Res id = "App" tr = "Aplikacija"/>
@@ -221,18 +241,12 @@
 		<Res id="indeksUser:" tr="Indeks:"/>
 		<Res id="nenrolled:" tr="Neprijavljeni ispiti:"/>
 		<Res id="enrolled:" tr="Prijavljeni ispiti:"/>
-		<Res id="Enroll" tr="Prijavi"/>
+		
 		<Res id="DEnroll" tr="Odjavi"/>
 
 
 
-		<Res id="namee:" tr="Name:"/>
-		<Res id="surname:" tr="Surname:"/>
-		<Res id="indeksUser:" tr="ID:"/>
-		<Res id="nenrolled:" tr="Discarded exams:"/>
-		<Res id="enrolled:" tr="Enrolled exams:"/>
-		<Res id="Enroll" tr="Enroll"/>
-		<Res id="DEnroll" tr="Discard"/>
+		
 		<Res id="viewExamSignUp" tr="Prijava ispita"/>
 		
 		<Res id="Activity:" tr="Aktivnost:"/>
@@ -246,6 +260,18 @@
 		<Res id="Index:" tr="Indeks:"/>
 		<Res id="Messages:" tr="Poruke:"/>
 		<Res id="Messages" tr="Poruke"/>
+
+		<Res id="grade:" tr="Ocjena:"/>
+		<Res id="activityName:" tr="Aktivnost:"/>
+		<Res id="Report" tr="Izvještaj"/>
+		<Res id="viewExamGrade" tr="Ocjena ispita"/>
+		<Res id="Naziv_Aktivnosti" tr="Aktivnost"/>
+		<Res id="viewGradeExam" tr="Ocjena ispita"/>
+
+		<Res id="Replace data" tr="Zamjena dokumenta"/>
+		<Res id="Text edit is not empty. Are you sure you want to replace it with new content?" tr="Polje nije prazno. Da li ste sigurni da želite zamijeniti njegov sadržaj?"/>
+		<Res id="Yes" tr="Da"/>
+		<Res id="No" tr="Ne"/>
 
 
 	</Translations>

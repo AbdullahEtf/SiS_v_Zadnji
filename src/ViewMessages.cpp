@@ -27,6 +27,8 @@ ViewMessages::ViewMessages() : _db(dp::getMainDatabase())
     _lastname.setAsReadOnly();
     _index.setAsReadOnly();
     populateData();
+
+    initTable(1);
 }
 
 ViewMessages::~ViewMessages()
@@ -82,8 +84,8 @@ void ViewMessages::populateData() {
         << "AuthorID" << td::int4
         << "Prezime" << td::string8
         << "Ime" << td::string8
-        << "Datum" << td::decimal2
-        << "Vrijeme" << td::decimal2;
+        << "Datum" << td::int4
+        << "Vrijeme" << td::int4;
 
     if (!_pDS->execute())
     {
@@ -91,7 +93,32 @@ void ViewMessages::populateData() {
         _pDS = nullptr;
         return;
     }
-
-    _table.init(_pDS, 0);
 }
 
+
+void ViewMessages::initTable(int type)
+{
+    //-----------moguci razliciti nacini ispisa, estetski ljepse
+
+    if (type == 0)
+    {
+        _table.init(_pDS, { 0,1,2,3,4,5,6,7});
+    }
+    else
+    {
+        gui::Columns visCols(_table.allocBindColumns(8));
+        visCols
+            << gui::Header(0, tr("ID"), tr("IDTT"), 50, td::HAlignment::Center)
+            << gui::Header(1, tr("Subject"), tr("SubjectTT"), 200, td::HAlignment::Left)
+            << gui::Header(2, tr("Poruke"), tr("PorukeTT"), 450, td::HAlignment::Left)
+            << gui::Header(3, tr("AuthorID"), tr("AuthorIDTT"), 50, td::HAlignment::Center)
+            << gui::Header(4, tr("Prezime"), tr("PrezimeTT"), 80, td::HAlignment::Center)
+            << gui::Header(5, tr("Ime"), tr("ImeTT"), 80, td::HAlignment::Center)
+            << gui::Header(6, tr("Datum"), tr("DatumTT"), 80, td::HAlignment::Center)
+            << gui::Header(7, tr("Vrijeme"), tr("VrijemeTT"), 80, td::HAlignment::Center);
+        //promijeniti izborni u status ako se promijeni ispis sa 0/1
+        _table.init(_pDS);
+    }
+
+
+}

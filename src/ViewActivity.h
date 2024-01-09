@@ -51,7 +51,6 @@ protected:
     gui::Button _btnSave;
     gui::Button _btnReload;
     //gui::Button _btnRemoveAll;
-    gui::Button _btnShowWindow;
     gui::Button _btnDelete;
     gui::Button _btnUpdate;
     gui::Button _btnInsert;   //jedna    ove       mozda    treba
@@ -89,6 +88,7 @@ protected:
     bool insertActivity();   
     void SetCurrentSubject();
     bool onAnswer(td::UINT4 questionID, gui::Alert::Answer answer);
+    void SetActivityTypeName(td::Variant& val, td::INT4 br);
 };
 
 
