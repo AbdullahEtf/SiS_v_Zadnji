@@ -38,16 +38,6 @@ protected:
     gui::Label _LblTimeBegin;
     gui::TimeEdit _timeB;
 
-    gui::Label _LblDateEnd;
-    gui::DateEdit _dateE;
-    gui::Label _LblTimeEnd;
-    gui::TimeEdit _timeE;
-
-    gui::Label _LblTimeFinal;
-    gui::TimeEdit _timeF;
-    gui::Label _LblDateFinal;
-    gui::DateEdit _dateF;
-
     gui::Label _lblType;
     gui::DBComboBox _type;
     gui::Label _lblCName;
