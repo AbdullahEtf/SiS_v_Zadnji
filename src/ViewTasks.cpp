@@ -1,12 +1,14 @@
 #include "ViewTasks.h"
+#include "SendMessage.h"
 #include <gui/FileDialog.h>
 #include <gui/Alert.h>
 #include <fo/FileOperations.h>
 #include <td/BLOB.h>
 #include <gui/Window.h>
+#include "ViewIDs.h"
 
 //#include "Globals.h"
-
+enum class QuestionIDDDAAA : td::UINT2 { Saveee };
 
 ViewTasks::ViewTasks(td::INT4 SubjectID) :
     _db(dp::getMainDatabase()),
@@ -416,7 +418,8 @@ bool ViewTasks::onClick(gui::Button* pBtn)
         return true;
     }
     if (pBtn == &_btnSave) {
-        saveData();
+        showYesNoQuestionAsync(QuestionIDDDAAA::Saveee, this, tr("alert"), tr("saveSure"), tr("Yes"), tr("No"));
+        return true;
         //  _table.reload();
     }
 
@@ -538,4 +541,40 @@ void ViewTasks::showOpenFileDialog()
 gui::TextEdit* ViewTasks::getTextEdit()
 {
     return &_textEdit;
+}
+
+
+bool ViewTasks::onAnswer(td::UINT4 questionID, gui::Alert::Answer answer)//??
+{
+    if ((QuestionIDDDAAA)questionID == QuestionIDDDAAA::Saveee)
+    {
+        if (answer == gui::Alert::Answer::Yes) {
+            saveData();
+
+            showAlert(tr("succes"), tr("succesEE"));
+            if (answer == gui::Alert::Answer::Yes) {
+                saveData();
+                //unutar button save se detektuje promjena i salje se poruka od sistema za sve studente
+//sad bi trebao da bude poseban button za poruke na koji ce se otvoriti novi prozorcic koji ce prikazati tabelu Messages gdje je id korisnika jednak user id poruke
+                std::vector<td::INT4> userIDs;
+                //svim studentima
+                dp::IStatementPtr pSelect = dp::getMainDatabase()->createStatement("SELECT ID FROM KORISNICI WHERE PozicijaID=5");
+                dp::Columns pCols = pSelect->allocBindColumns(1);
+                td::INT4 id;
+                pCols << "ID" << id;
+                if (!pSelect->execute())
+                    return false;
+                while (pSelect->moveNext())
+                {
+                    userIDs.push_back(id);
+                }
+                td::String naslov = "Aktivnost!";
+                td::String poruka = "Registrovana je promjena za odredjenu aktivnost! ";
+                MsgSender msg;
+                msg.sendSystemMsgtoUsers(naslov, poruka, userIDs);
+            }
+        }
+        return true;
+    }
+    return false;
 }
