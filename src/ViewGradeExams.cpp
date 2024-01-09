@@ -19,6 +19,7 @@ ViewGradeExams::ViewGradeExams(td::INT4 SubjectID) : _db(dp::getMainDatabase())
 , _gl(6, 4) // pazi na brojeve----neka budu tri reda ovih labela (naziv aktivnosti i naziv predmeta, ime i prezime, indeks i ocjena)
 , _SubjectID(SubjectID)
 , _report(1)
+, _imgExamGrades(":complex")
 {
 
 	_hlBtns.appendSpacer();
@@ -317,7 +318,6 @@ bool ViewGradeExams::onClick(gui::Button* pBtn)
 		saveData();
 	}
 	if (pBtn == &_btnReport) {
-		gui::Image _imgExamGrades(":complex");
 		examGrades(&_imgExamGrades, _SubjectID);
 		// pada zbog pristupa nedozvoljenim lokacijama - PROBLEM
 	}

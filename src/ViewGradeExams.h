@@ -57,7 +57,7 @@ protected:
     td::INT4 _SubjectID;
     td::INT4 _ActivityID;
     td::INT4 _UserID;
-
+    gui::Image _imgExamGrades;
     gui::TableEdit _table;
 
     std::vector<td::INT4> _itemsToDelete, _itemsToInsert, _itemsToUpdate;
