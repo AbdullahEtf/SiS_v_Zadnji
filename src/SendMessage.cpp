@@ -47,11 +47,11 @@ bool MsgSender::ponovljeno(td::INT4 a, td::String subject, td::String poruka, td
         return false;
 
     ++maxID;
-    dp::IStatementPtr pInsert(dp::getMainDatabase()->createStatement("insert into Messages(ID, AuthorID, Subject, Text, Datum, Vrijeme ) values(?,?,?,?,?,?)"));
+    dp::IStatementPtr pInsert(dp::getMainDatabase()->createStatement("insert into Messages(ID, AuthorID, Subject, Poruke, Datum, Vrijeme ) values(?,?,?,?,?,?)"));
     dp::Params pParams(pInsert->allocParams());
     pParams << maxID << a << dp::toNCh(subject, MESSAGE_HEADER_LEN) << dp::toNCh(poruka, MESSAGE_BODY_LEN) << date << time;
 
-    dp::IStatementPtr pInsert2(dp::getMainDatabase()->createStatement("insert into MsgRecievers(MsgID, UserID) values(?,?)"));
+    dp::IStatementPtr pInsert2(dp::getMainDatabase()->createStatement("insert into MsgReceivers(MsgID, UserID) values(?,?)"));
     dp::Params pParams2(pInsert2->allocParams());
     pParams2 << maxID << userID;
 
