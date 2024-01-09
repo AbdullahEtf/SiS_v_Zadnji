@@ -1,4 +1,10 @@
 #include "ViewTasks.h"
+#include <gui/FileDialog.h>
+#include <gui/Alert.h>
+#include <fo/FileOperations.h>
+#include <td/BLOB.h>
+#include <gui/Window.h>
+
 //#include "Globals.h"
 
 
@@ -7,10 +13,6 @@ ViewTasks::ViewTasks(td::INT4 SubjectID) :
     _LblActName(tr("Activity")),
     _LblDateBegin(tr("ActivityDateB")),
     _LblTimeBegin(tr("ActivityTimeB")),
-    _LblDateEnd(tr("ActivityDateE")),
-    _LblTimeEnd(tr("ActivityTimeE")),
-    _LblDateFinal(tr("ActivityDateF")),
-    _LblTimeFinal(tr("ActivityTimeF")),
     _lblType(tr("ActivityNameForDateTime")),
     _type(td::int4),
     _lblCName(tr("Course:")),
@@ -56,18 +58,6 @@ ViewTasks::ViewTasks(td::INT4 SubjectID) :
 
     gc.appendCol(_LblTimeBegin);
     gc.appendCol(_timeB);
-
-    gc.appendRow(_LblDateEnd);
-    gc.appendCol(_dateE);
-
-    gc.appendCol(_LblTimeEnd);
-    gc.appendCol(_timeE);
-
-    gc.appendRow(_LblDateFinal);
-    gc.appendCol(_dateF);
-
-    gc.appendCol(_LblTimeFinal);
-    gc.appendCol(_timeF);
 
     gc.appendRow(_table, 0);
     gc.appendRow(_hlBtnsDB, 0);
@@ -175,20 +165,6 @@ bool ViewTasks::onChangedSelection(gui::TableEdit* pTE) {
         val = row[1];
         _timeB.setValue(val);
 
-        val = row[2];
-        _dateE.setValue(val);
-
-        val = row[3];
-        _timeE.setValue(val);
-
-        val = row[4];
-
-        _dateF.setValue(val);
-
-        val = row[5];
-
-        _timeF.setValue(val);
-
         val = row[7];
         td::Variant var;
         _type.setValue(val);
@@ -206,18 +182,6 @@ void ViewTasks::populateDSRow(dp::IDataSet::Row& row, td::INT4 i)
 
     _timeB.getValue(val);
     row[1].setValue(val);
-
-    _dateE.getValue(val);
-    row[2].setValue(val);
-
-    _timeE.getValue(val);
-    row[3].setValue(val);
-
-    _dateF.getValue(val);
-    row[4].setValue(val);
-
-    _timeF.getValue(val);
-    row[5].setValue(val);
 
     td::Variant x = i;
     row[6].setValue(x);
@@ -474,4 +438,104 @@ td::INT4 ViewTasks::getIDfromTable(int rowID)
     dp::IDataSet* pDS = _table.getDataSet();
     auto& row = pDS->getRow(rowID);
     return row[6].i4Val();
+}
+
+void ViewTasks::openFile(gui::FileDialog* pFD)
+{
+    auto status = pFD->getStatus();
+    if (status == gui::FileDialog::Status::OK)
+    {
+        td::String strFileName = pFD->getFileName();
+        td::String strContent;
+
+        if (fo::loadFileContent(strFileName, strContent))
+        {
+            gui::TextEdit* pTE = (*this).getTextEdit();
+            pTE->setText(strContent);
+        }
+    }
+}
+
+void ViewTasks::showOpenFileDialog()
+{
+    //create OpenFile dialog and open it
+    auto pFD = new gui::OpenFileDialog(this, tr("OpenF"), { {tr("TxtDocs"),"*.txt"}, {tr("PDFDocs"),"*.pdf"}, {tr("JPGSlike"),"*.jpg"}, {tr("PNGSlike"),"*.png"} });
+#ifdef USE_CALLBACKS
+    pFD->openModal(&_callBackOpenFileDlg);
+#else
+    //pFD->openModalWithID(WndID::FileOpenDlg, this);
+    pFD->openModal([this](gui::FileDialog* pFD)
+        {
+            auto status = pFD->getStatus();
+            if (status == gui::FileDialog::Status::OK)
+            {
+                td::String strFileFullPath = pFD->getFileName();
+                td::String strContent;
+
+                if (fo::loadFileContent(strFileFullPath, strContent))
+                {
+                    gui::TextEdit* pTE = (*this).getTextEdit();
+                    pTE->setText(strContent);
+
+                    fo::fs::path homePath;
+                    mu::getHomePath(homePath);
+                    fo::fs::path testDBPath = (homePath / "other_bin/TestData/natGUITest/Test.db");
+
+                    dp::IDatabasePtr pDB = dp::create(dp::IDatabase::ConnType::CT_SQLITE, dp::IDatabase::ServerType::SER_SQLITE3);
+                    //dp::getMainDatabase() if I were connected to DB before
+
+                    if (!pDB->connect(testDBPath.string().c_str()))
+                    {
+                        assert(false && "Nema baze...");
+                        return;
+                    }
+                    //just for test, i always delete everything in the table, so it doesent get huge
+                   /* dp::IStatementPtr pStatDel = pDB->createStatement("delete from TestBLOBAttachment");*/
+
+
+                    dp::IStatementPtr pStatIns = pDB->createStatement("insert into DokumentiOpenPredaja(ID, Dokumenti, ID_Predaje) values(?, ?, ?)");
+                    dp::Params paramsInsert(pStatIns->allocParams());
+
+                    fo::fs::path filePath(strFileFullPath.c_str());
+                    //td::String strFileName = filePath.filename().string();//daj mi naziv fajla
+                    td::String fileExtension = filePath.filename().extension().string(); //daj mi tip fajla
+
+                    //tip BLOBa
+                    td::BLOB::Type typeFile = td::BLOB::Type::TYPE_BINARY_UNKNOWN;
+                    if (fileExtension.compareConstStr(".txt"))
+                        typeFile = td::BLOB::Type::TYPE_TXT;
+                    else if (fileExtension.compareConstStr(".pdf"))
+                        typeFile = td::BLOB::Type::TYPE_PDF;
+                    else if (fileExtension.compareConstStr(".jpg"))
+                        typeFile = td::BLOB::Type::TYPE_JPG;
+                    else if (fileExtension.compareConstStr(".png"))
+                        typeFile = td::BLOB::Type::TYPE_PNG;
+
+
+                    td::BLOB dataIn(td::BLOB::SRC_FILE, 16384U, typeFile);
+                    static td::INT4 ID, ID_predaje;
+                    paramsInsert <<ID <<dataIn<<ID_predaje;
+                    ID++; ID_predaje++;
+                    //Neophodno, sa ove lokacije (strFileFullPath) se uzima BLOB
+                    if (!dataIn.setInFileName(strFileFullPath))
+                    {
+                        gui::Alert::show(tr("Error"), tr("Did you delete the selected file?"));
+                        return;
+                    }
+
+                    dp::Transaction transaction(pDB);
+
+                    //bool delOK = pStatDel->execute();
+                    bool insOK = pStatIns->execute();
+
+                    bool commitOK = transaction.commit();
+                }
+            }
+        });
+#endif
+}
+
+gui::TextEdit* ViewTasks::getTextEdit()
+{
+    return &_textEdit;
 }
