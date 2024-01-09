@@ -56,6 +56,7 @@ protected:
     //::INT4 _ActivityID;
     td::INT4 _SubjectID;
     ///*td::string8 _nazivakt;*/
+    gui::TextEdit _textEdit;
 
     gui::TableEdit _table;
     std::vector<td::INT4> _itemsToDelete, _itemsToInsert, _itemsToUpdate;
@@ -76,4 +77,7 @@ protected:
     void SetActivityName(td::Variant& val, td::INT4 br);
     td::INT4 getIDfromTable(int rowID);
     td::INT4 findMaxID();
+    void openFile(gui::FileDialog* pFD);
+    void showOpenFileDialog();
+    gui::TextEdit* getTextEdit();
 };
