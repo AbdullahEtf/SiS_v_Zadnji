@@ -109,8 +109,8 @@ void ViewMessages::initTable(int type)
         gui::Columns visCols(_table.allocBindColumns(8));
         visCols
             << gui::Header(0, tr("ID"), tr("IDTT"), 50, td::HAlignment::Center)
-            << gui::Header(1, tr("Subject"), tr("SubjectTT"), 300, td::HAlignment::Left)
-            << gui::Header(2, tr("Poruke"), tr("PorukeTT"), 300, td::HAlignment::Left)
+            << gui::Header(1, tr("Subject"), tr("SubjectTT"), 200, td::HAlignment::Left)
+            << gui::Header(2, tr("Poruke"), tr("PorukeTT"), 450, td::HAlignment::Left)
             << gui::Header(3, tr("AuthorID"), tr("AuthorIDTT"), 50, td::HAlignment::Center)
             << gui::Header(4, tr("Prezime"), tr("PrezimeTT"), 80, td::HAlignment::Center)
             << gui::Header(5, tr("Ime"), tr("ImeTT"), 80, td::HAlignment::Center)

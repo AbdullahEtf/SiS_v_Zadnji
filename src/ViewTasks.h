@@ -80,4 +80,5 @@ protected:
     void openFile(gui::FileDialog* pFD);
     void showOpenFileDialog();
     gui::TextEdit* getTextEdit();
+    /*bool onAnswer(td::UINT4 questionID, gui::Alert::Answer answer);*/
 };
