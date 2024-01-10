@@ -504,18 +504,8 @@ void ViewTasks::showOpenFileDialog()
                     gui::TextEdit* pTE = (*this).getTextEdit();
                     pTE->setText(strContent);
 
-                    fo::fs::path homePath;
-                    mu::getHomePath(homePath);
-                    fo::fs::path testDBPath = (homePath / "other_bin/TestData/natGUITest/Test.db");
 
-                    dp::IDatabasePtr pDB = dp::create(dp::IDatabase::ConnType::CT_SQLITE, dp::IDatabase::ServerType::SER_SQLITE3);
-                    //dp::getMainDatabase() if I were connected to DB before
-
-                    if (!pDB->connect(testDBPath.string().c_str()))
-                    {
-                        assert(false && "Nema baze...");
-                        return;
-                    }
+                    dp::IDatabase* pDB = dp::getMainDatabase();
                     //just for test, i always delete everything in the table, so it doesent get huge
                    /* dp::IStatementPtr pStatDel = pDB->createStatement("delete from TestBLOBAttachment");*/
 
