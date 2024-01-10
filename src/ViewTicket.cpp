@@ -1,12 +1,19 @@
-﻿#pragma once
+#pragma once
 #include "ViewTicket.h"
 #include "ViewIDs.h"
-#include "RequestUpdateWindow.h"
 
 ViewTicket::ViewTicket()
 	: _typelbl(tr("typeOfMessage"))
 	, _subjectlbl(tr("subject"))
+<<<<<<< Updated upstream
 	, _bodylbl(tr("bodylbl"))
+=======
+	, _bodylbl(tr(""))
+	, _hlBtns(2)
+	, _btnAttach("Dodaj")
+	, _attachedFile("Dokument:")
+	, _titleFile("")
+>>>>>>> Stashed changes
 	, _hlBtnsDB(4)
 	, _btnSend(tr("send"),tr("sendRequestTT"))
     ,_btnOpen(tr("open"),tr("openTT"))
@@ -46,6 +53,15 @@ bool ViewTicket::onClick(gui::Button* pBtn)
 		return true;
 	}
 
+<<<<<<< Updated upstream
+=======
+	if (pBtn == &_btnAttach)
+	{
+		selectFiles();
+		return true;
+	}
+
+>>>>>>> Stashed changes
 	if (pBtn == &_btnOpen)
 	{
 		auto rowindex = _tableTickets.getFirstSelectedRow();

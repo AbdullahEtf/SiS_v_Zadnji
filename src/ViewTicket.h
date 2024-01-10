@@ -47,6 +47,11 @@ protected:
 	gui::HorizontalLayout _hlBtnsDB;
 	gui::Button _btnSend;
 	gui::Button _btnOpen;
+<<<<<<< Updated upstream
+=======
+	gui::HorizontalLayout _hlBtns;
+	gui::Button _btnAttach;
+>>>>>>> Stashed changes
 
 	gui::TableEdit _tableTickets;
 	gui::GridLayout _gl;
