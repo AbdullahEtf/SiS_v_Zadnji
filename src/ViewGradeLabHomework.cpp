@@ -2,6 +2,8 @@
 #include "ViewGradeLabHomework.h"
 #include <td/Types.h>
 #include "Reports.h"
+#include "SendMessage.h"
+
 
 ViewGradeLabHomework::ViewGradeLabHomework(td::INT4 SubjectID) : _db(dp::getMainDatabase())
 , _lblName(tr("userName:"))
@@ -19,6 +21,8 @@ ViewGradeLabHomework::ViewGradeLabHomework(td::INT4 SubjectID) : _db(dp::getMain
 , _gl(6, 4) // pazi na brojeve----neka budu tri reda ovih labela (naziv aktivnosti i naziv predmeta, ime i prezime, indeks i ocjena)
 , _SubjectID(SubjectID)
 , _report(1)
+, _imgHWGrades(":complex")
+
 {
 
 	_hlBtns.appendSpacer();
@@ -73,7 +77,7 @@ ViewGradeLabHomework::ViewGradeLabHomework(td::INT4 SubjectID) : _db(dp::getMain
 void ViewGradeLabHomework::populateData()
 {
 
-	_pDS = _db->createDataSet("SELECT a.ID_Korisnika, a.ID_Aktivnosti, b.Naziv_Aktivnosti, c.Indeks, c.Ime, c.Prezime, d.Ocjena as Procenat, d.ID FROM PolazniciAktivnosti a, Aktivnosti b, Korisnici c, OcjeneLabZadace d WHERE a.ID_Aktivnosti = b.ID_Aktivnosti AND d.ID_Korisnika = a.ID_Korisnika AND d.ID_Aktivnosti = b.ID_Aktivnosti AND a.ID_Korisnika = c.ID AND b.ID_Predmeta = ? AND b.Tip_Aktivnosti IN(5, 2) ORDER BY b.Naziv_Aktivnosti DESC; ", dp::IDataSet::Execution::EX_MULT);
+	_pDS = _db->createDataSet("SELECT a.ID_Korisnika, a.ID_Aktivnosti, b.Naziv_Aktivnosti, c.Indeks, c.Ime, c.Prezime, d.Ocjena as Procenat, d.ID FROM PolazniciAktivnosti a, Aktivnosti b, Korisnici c, OcjeneLabZadace d WHERE a.ID_Aktivnosti = b.ID_Aktivnosti AND d.ID_Korisnika = a.ID_Korisnika AND d.ID_Aktivnosti = b.ID_Aktivnosti AND a.ID_Korisnika = c.ID AND b.ID_Predmeta = ? AND b.Tip_Aktivnosti IN(5, 2) ORDER BY b.Naziv_Aktivnosti DESC", dp::IDataSet::Execution::EX_MULT);
 
 	dp::Params parDS(_pDS->allocParams());
 
@@ -146,11 +150,6 @@ void ViewGradeLabHomework::populateDSRow(dp::IDataSet::Row& row, td::INT4 id)
 	td::Variant x = id;
 	row[7].setValue(x);
 
-	val = _UserID;
-	row[0].setValue(val);
-
-	val = _ActivityID;
-	row[1].setValue(val);
 
 }
 bool ViewGradeLabHomework::canAdd()
@@ -251,6 +250,16 @@ bool ViewGradeLabHomework::saveData()
 		_itemsToInsert.clear();
 		_itemsToUpdate.clear();
 	}
+
+	for (auto i : _userids) {
+
+		td::String naslov = "Ocjena!";
+		td::String poruka = "Unesena je ocjena za odredenu aktivnost! ";
+		MsgSender msg;
+		msg.sendSystemMsgtoUser(naslov, poruka, i);
+	}
+	_userids.clear();
+
 	return true;
 }
 
@@ -270,6 +279,8 @@ bool ViewGradeLabHomework::onClick(gui::Button* pBtn)
 		_table.beginUpdate();
 		auto& row = _table.getCurrentRow();
 		row[6].toZero();
+		td::INT4 a = row[0].i4Val();
+		_userids.insert(a);
 		//	_table.updateRow(iRow);
 		_table.endUpdate();
 
@@ -291,6 +302,8 @@ bool ViewGradeLabHomework::onClick(gui::Button* pBtn)
 		_table.beginUpdate();
 		auto& row = _table.getCurrentRow();
 		populateDSRow(row, itemid);
+		td::INT4 a = row[0].i4Val();
+		_userids.insert(a);
 		_table.updateRow(iRow);
 		_table.endUpdate();
 
@@ -306,6 +319,8 @@ bool ViewGradeLabHomework::onClick(gui::Button* pBtn)
 		_table.beginUpdate();
 		auto& row = _table.getCurrentRow();
 		populateDSRow(row, itemid);
+		td::INT4 a = row[0].i4Val();
+		_userids.insert(a);
 		_table.updateRow(iRow);
 		_table.endUpdate();
 
@@ -317,8 +332,10 @@ bool ViewGradeLabHomework::onClick(gui::Button* pBtn)
 		saveData();
 	}
 	if (pBtn == &_btnReport) {
-		gui::Image _imgExamGrades(":complex");
-		examGrades(&_imgExamGrades, _SubjectID);
+		//gui::Image _imgExamGrades(":complex");
+		labGrades(&_imgHWGrades, _SubjectID);
+		//homeworkGrades(&_imgHWGrades, _SubjectID); //---------------------popraviti da se mogu dva sacuvati
+
 		// pada zbog pristupa nedozvoljenim lokacijama - PROBLEM
 	}
 	return false;

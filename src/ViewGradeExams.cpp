@@ -247,9 +247,6 @@ bool ViewGradeExams::saveData()
 	if (!updateExamGrade())
 		return false;
 
-
-	
-
 	if (tran.commit())
 	{
 		_itemsToDelete.clear();
@@ -260,11 +257,11 @@ bool ViewGradeExams::saveData()
 	for (auto i : _userids) {
 
 		td::String naslov = "Ocjena!";
-		td::String poruka = "Unesena je ocjena za određenu aktivnost! ";
+		td::String poruka = "Unesena je ocjena za odredenu aktivnost! ";
 		MsgSender msg;
 		msg.sendSystemMsgtoUser(naslov, poruka, i);
 	}
-	_userids.clear();
+	_userids.clear(); 
 
 	return true;
 }

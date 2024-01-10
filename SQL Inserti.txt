@@ -1,105 +1,129 @@
-Insert into ClassRoles values (1, 'Laboratorija');
-Insert into ClassRoles values (2, 'Specijalna laboratorija');
-Insert into ClassRoles values (3, 'Ucionica');
-Insert into ClassRoles values (4, 'Amfiteatar');
-
-insert into TipPredavanja values (1, 'Predavanje');
-insert into TipPredavanja values (2, 'Tutorijal');
-insert into TipPredavanja values (3, 'Laboratorijska vježba');
- 
- 
- 
-insert into Pozicija values (1, 'Profesor');
-insert into Pozicija values (5, 'Student');
-insert into Pozicija values (3, 'Asistent');
-insert into Pozicija values (4, 'Studentska sluzba');
-insert into Pozicija values (2, 'Demonstrator');
-insert into Pozicija values (6, 'Administrator');
-
-
-
-insert into Smjer (ID_Smjera, Naziv_Smjera, Skr_Naziv_Smjera) values (1,'Automatika i elektronika', 'AE');
-insert into Smjer (ID_Smjera, Naziv_Smjera, Skr_Naziv_Smjera) values (2, 'Elektroenergetika','EE');
-insert into Smjer (ID_Smjera, Naziv_Smjera, Skr_Naziv_Smjera) values (3, 'Telekomunikacije', 'TK');
-insert into Smjer (ID_Smjera, Naziv_Smjera, Skr_Naziv_Smjera) values (4, 'Racunarstvo i informatika', 'RI');
-
-
-insert into Predmet (ID_Predmeta, Naziv_Predmeta, Sifra_Predmeta,ID_Smjera,Semestar,ECTS_bodovi,izborni, Max_Broj_Polaznika) values (1, 'Senzori i mjerenja', 'SiM',1,3,5,0,50);
-insert into Predmet (ID_Predmeta, Naziv_Predmeta, Sifra_Predmeta,ID_Smjera,Semestar,ECTS_bodovi,izborni, Max_Broj_Polaznika) values (2, 'Inzenjerska matematika 3', 'IM3',2,7,5,0,50);
-insert into Predmet (ID_Predmeta, Naziv_Predmeta, Sifra_Predmeta,ID_Smjera,Semestar,ECTS_bodovi,izborni, Max_Broj_Polaznika) values (3, 'Programiranje za inzenjere', 'PZI',1,3,7,1,20);
-insert into Predmet (ID_Predmeta, Naziv_Predmeta, Sifra_Predmeta,ID_Smjera,Semestar,ECTS_bodovi,izborni, Max_Broj_Polaznika) values (4, 'Tehnike programiranja', 'TP',1,2,4,1,40);
-
-
-INSERT INTO "Korisnici" (ID, Prezime, Ime, DatumUpisa, PozicijaID, JMBG, Adresa, DatumRodjenja, Indeks)
-VALUES (-1, 'Sistem', '.', 0000000, 6, '.', '.', 0000000, '0');
-
-INSERT INTO "Korisnici" (ID, Prezime, Ime, DatumUpisa, PozicijaID, JMBG, Adresa, DatumRodjenja, Indeks)
-VALUES (2, 'Mickey', 'Mouse', 1036184, 1, '111111111111', '122 Disneyland', 1036184, '1');
-
-INSERT INTO "Korisnici" (ID, Prezime, Ime, DatumUpisa, PozicijaID, JMBG, Adresa, DatumRodjenja, Indeks)
-VALUES (1, 'Donald', 'Trump', 1036184, 1, '123123123123', 'New York', 1036184, '2');
-insert into Korisnici values (5,'Mouse','Mini', 11112022, 5,'644851584555', 'Disneyland 221', 10041922, '5542');
-insert into Korisnici values (6,'Bobica','Jagodica', 11112022, 5,'644851584555', 'Disneyland 221', 10041922, '5543');
-insert into Korisnici values (7,'Zvonko','Nodi', 11112022, 5,'644851584555', 'Disneyland 221', 10041922, '5544');
-insert into Korisnici values (8,'Cooper','Sheldon', 11112022, 5,'644851584555', 'Disneyland 221', 10041922, '15557');
-
-insert into UserLogin values (-1,'admin','admin');
-insert into UserLogin values (1,'donald','donald');
-insert into UserLogin values (5,'mini','mini');
-
-insert into PredmetStaff(ID_Korisnika,ID_Predmeta) values(1,2);
-insert into PredmetStaff(ID_Korisnika,ID_Predmeta) values(1,4);
-insert into PredmetStaff(ID_Korisnika,ID_Predmeta)values(2,2);
-insert into PredmetStaff(ID_Korisnika,ID_Predmeta) values(1,1);
-insert into PredmetStaff(ID_Korisnika,ID_Predmeta) values(2,3);
-
-insert into VrstaAktivnosti values (1,'Ispit');
-insert into VrstaAktivnosti values (2,'Zadaca');
-insert into VrstaAktivnosti values (3,'Projekat');
-insert into VrstaAktivnosti values (4,'Ostalo');
-insert into VrstaAktivnosti(ID, Naziv) values (5, 'LAB')
-
-insert into Aktivnosti (ID_Aktivnosti,ID_Predmeta,Procenat, Naziv_Aktivnosti,Opis_Aktivnosti, Tip_Aktivnosti) values (2, 4, 20, 'drugi parcijalni', 'nesto1',1);
-insert into Aktivnosti (ID_Aktivnosti,ID_Predmeta,Procenat, Naziv_Aktivnosti,Opis_Aktivnosti, Tip_Aktivnosti) values (3, 2, 26, 'zadaca 1', 'nesto2', 2);
-insert into Aktivnosti (ID_Aktivnosti,ID_Predmeta,Procenat, Naziv_Aktivnosti,Opis_Aktivnosti, Tip_Aktivnosti) values (4, 1, 5, 'prisustvo', 'nesto3', 4);
-insert into Aktivnosti (ID_Aktivnosti,ID_Predmeta,Procenat, Naziv_Aktivnosti,Opis_Aktivnosti, Tip_Aktivnosti) values (5, 1, 90, 'integralni', 'nesto4', 1);
-insert into Aktivnosti (ID_Aktivnosti,ID_Predmeta,Procenat, Naziv_Aktivnosti,Opis_Aktivnosti, Tip_Aktivnosti) values (1, 3, 50, 'prvi parcijalni', 'nesto5', 1);
-insert into Aktivnosti values(6, 3, 40, 'Projekat Zamger', 'Izrada studentskog sistema', 3);
-insert into Aktivnosti values(7, 3, 15, 'labaratorijska vjezba', 'nesto', 5);
-
-insert into PolazniciAktivnosti values (2,4);
-insert into PolazniciAktivnosti values (2,1);
-insert into PolazniciAktivnosti values (2,2);
-insert into PolazniciAktivnosti values (4,4);
-insert into PolazniciAktivnosti values (4,3);
-insert into PolazniciAktivnosti values (4,5);
-
-
-
-INSERT INTO Polozeni_Predmeti VALUES(1,1,5,0,0);
-INSERT INTO Polozeni_Predmeti VALUES(2,2,5,0,1);
-INSERT INTO Polozeni_Predmeti VALUES(3,3,5,1,0);
-INSERT INTO Polozeni_Predmeti VALUES(4,4,5,1,1);
-
-INSERT INTO SAOTicket (ID,Ticket) VALUES (1,'Molba');
-INSERT INTO SAOTicket  (ID,Ticket) VALUES (2,'Žalba');
-INSERT INTO SAOTicket  (ID,Ticket) VALUES (3,'Pitanje');
-
-INSERT into Rokovi (ID_Roka, ID_Aktivnosti, Datum_Pocetka, Vrijeme_Pocetka, Datum_Kraja, Vrijeme_Kraja,Datum_Prijave, Vrijeme_Prijave, ID_Predmeta) values(1,5,20231229,090000,0,0,2555562,111427,1);
-INSERT into Rokovi (ID_Roka, ID_Aktivnosti, Datum_Pocetka, Vrijeme_Pocetka, Datum_Kraja, Vrijeme_Kraja,Datum_Prijave, Vrijeme_Prijave, ID_Predmeta) values(2,1,20220609,113000,0,0,545256,112023,2);
-INSERT into Rokovi (ID_Roka, ID_Aktivnosti, Datum_Pocetka, Vrijeme_Pocetka, Datum_Kraja, Vrijeme_Kraja,Datum_Prijave, Vrijeme_Prijave, ID_Predmeta) values(3,2,20230210,90000,0,0,515245,90705,3);
-INSERT into Rokovi (ID_Roka, ID_Aktivnosti, Datum_Pocetka, Vrijeme_Pocetka, Datum_Kraja, Vrijeme_Kraja,Datum_Prijave, Vrijeme_Prijave, ID_Predmeta) values(4,5,20230303,90000,0,0,515585,111111,4);
-INSERT into Rokovi (ID_Roka, ID_Aktivnosti, Datum_Pocetka, Vrijeme_Pocetka, Datum_Kraja, Vrijeme_Kraja,Datum_Prijave, Vrijeme_Prijave, ID_Predmeta) values(5,3,0,0,20220609,113000,0,0,2);
-INSERT into Rokovi (ID_Roka, ID_Aktivnosti, Datum_Pocetka, Vrijeme_Pocetka, Datum_Kraja, Vrijeme_Kraja,Datum_Prijave, Vrijeme_Prijave, ID_Predmeta) values(6,7,0,0,20230210,9000,0,112023,3);
-
-INSERT into Predaja (ID_Predaje,ID_Roka, ID_studenta,Datoteka, Datum_Predaje, Vrijeme_Predaje, Predano) values(1,6,5,'lab1',0,0,0);
-INSERT into Predaja (ID_Predaje,ID_Roka, ID_studenta,Datoteka, Datum_Predaje, Vrijeme_Predaje, Predano) values(2,5,5,'dz1',0,0,0);
-INSERT into Predaja (ID_Predaje,ID_Roka, ID_studenta,Datoteka, Datum_Predaje, Vrijeme_Predaje, Predano) values(3,5,5,'dz2',20220604,174601,1);
-INSERT into Predaja (ID_Predaje,ID_Roka, ID_studenta,Datoteka, Datum_Predaje, Vrijeme_Predaje, Predano) values(4,6,5,'lab2',20230205,205904,1);
-INSERT into Predaja (ID_Predaje,ID_Roka, ID_studenta,Datoteka, Datum_Predaje, Vrijeme_Predaje, Predano) values(5,6,5,'lab4',0,0,0);
-INSERT into Predaja (ID_Predaje,ID_Roka, ID_studenta,Datoteka, Datum_Predaje, Vrijeme_Predaje, Predano) values(6,5,5,'dz3',0,0,0);
-INSERT into Predaja (ID_Predaje,ID_Roka, ID_studenta,Datoteka, Datum_Predaje, Vrijeme_Predaje, Predano) values(7,5,5,'dz4',0,0,0);
-INSERT into Predaja (ID_Predaje,ID_Roka, ID_studenta,Datoteka, Datum_Predaje, Vrijeme_Predaje, Predano) values(8,5,5,'dz5',20220607,174601,1);
-INSERT into Predaja (ID_Predaje,ID_Roka, ID_studenta,Datoteka, Datum_Predaje, Vrijeme_Predaje, Predano) values(9,6,5,'lab5',20230207,152904,1);
-INSERT into Predaja (ID_Predaje,ID_Roka, ID_studenta,Datoteka, Datum_Predaje, Vrijeme_Predaje, Predano) values(10,6,5,'lab3',20230206,192304,1);
-
+INSERT INTO "Pozicija" ("ID","Naziv") VALUES (1,'Profesor');
+INSERT INTO "Pozicija" ("ID","Naziv") VALUES (2,'Demonstrator');
+INSERT INTO "Pozicija" ("ID","Naziv") VALUES (3,'Asistent');
+INSERT INTO "Pozicija" ("ID","Naziv") VALUES (4,'Studentska sluzba');
+INSERT INTO "Pozicija" ("ID","Naziv") VALUES (5,'Student');
+INSERT INTO "Pozicija" ("ID","Naziv") VALUES (6,'Administrator');
+INSERT INTO "Korisnici" ("ID","Prezime","Ime","DatumUpisa","PozicijaID","JMBG","Adresa","DatumRodjenja","Indeks") VALUES (-1,'Sistem','.',0,6,'.','.',0,'0');
+INSERT INTO "Korisnici" ("ID","Prezime","Ime","DatumUpisa","PozicijaID","JMBG","Adresa","DatumRodjenja","Indeks") VALUES (1,'Donald','Trump',1036184,1,'123123123123','New York',1036184,'2');
+INSERT INTO "Korisnici" ("ID","Prezime","Ime","DatumUpisa","PozicijaID","JMBG","Adresa","DatumRodjenja","Indeks") VALUES (2,'Mickey','Mouse',1036184,1,'111111111111','122 Disneyland',1036184,'1');
+INSERT INTO "Korisnici" ("ID","Prezime","Ime","DatumUpisa","PozicijaID","JMBG","Adresa","DatumRodjenja","Indeks") VALUES (5,'Mouse','Mini',11112022,5,'644851584555','Disneyland 221',10041922,'5542');
+INSERT INTO "Korisnici" ("ID","Prezime","Ime","DatumUpisa","PozicijaID","JMBG","Adresa","DatumRodjenja","Indeks") VALUES (6,'Bobica','Jagodica',11112022,5,'644851584555','Disneyland 221',10041922,'5543');
+INSERT INTO "Korisnici" ("ID","Prezime","Ime","DatumUpisa","PozicijaID","JMBG","Adresa","DatumRodjenja","Indeks") VALUES (7,'Zvonko','Nodi',11112022,5,'644851584555','Disneyland 221',10041922,'5544');
+INSERT INTO "Korisnici" ("ID","Prezime","Ime","DatumUpisa","PozicijaID","JMBG","Adresa","DatumRodjenja","Indeks") VALUES (8,'Cooper','Sheldon',11112022,5,'644851584555','Disneyland 221',10041922,'15557');
+INSERT INTO "Smjer" ("ID_Smjera","Naziv_Smjera","Skr_Naziv_Smjera") VALUES (1,'Automatika i elektronika','AE');
+INSERT INTO "Smjer" ("ID_Smjera","Naziv_Smjera","Skr_Naziv_Smjera") VALUES (2,'Elektroenergetika','EE');
+INSERT INTO "Smjer" ("ID_Smjera","Naziv_Smjera","Skr_Naziv_Smjera") VALUES (3,'Telekomunikacije','TK');
+INSERT INTO "Smjer" ("ID_Smjera","Naziv_Smjera","Skr_Naziv_Smjera") VALUES (4,'Racunarstvo i informatika','RI');
+INSERT INTO "ClassRoles" ("ID","Type") VALUES (1,'Laboratorija');
+INSERT INTO "ClassRoles" ("ID","Type") VALUES (2,'Specijalna laboratorija');
+INSERT INTO "ClassRoles" ("ID","Type") VALUES (3,'Ucionica');
+INSERT INTO "ClassRoles" ("ID","Type") VALUES (4,'Amfiteatar');
+INSERT INTO "TipPredavanja" ("ID","Naziv") VALUES (1,'Predavanje');
+INSERT INTO "TipPredavanja" ("ID","Naziv") VALUES (2,'Tutorijal');
+INSERT INTO "TipPredavanja" ("ID","Naziv") VALUES (3,'Laboratorijska vježba');
+INSERT INTO "UserLogin" ("ID","Username","Password") VALUES (-1,'admin','admin');
+INSERT INTO "UserLogin" ("ID","Username","Password") VALUES (1,'donald','donald');
+INSERT INTO "UserLogin" ("ID","Username","Password") VALUES (5,'mini','mini');
+INSERT INTO "Predmet" ("ID_Predmeta","Naziv_Predmeta","Sifra_Predmeta","ID_Smjera","Semestar","ECTS_bodovi","Izborni","Max_Broj_Polaznika") VALUES (1,'Senzori i mjerenja','SiM',1,3,5,0,50);
+INSERT INTO "Predmet" ("ID_Predmeta","Naziv_Predmeta","Sifra_Predmeta","ID_Smjera","Semestar","ECTS_bodovi","Izborni","Max_Broj_Polaznika") VALUES (2,'Inzenjerska matematika 3','IM3',2,7,5,0,50);
+INSERT INTO "Predmet" ("ID_Predmeta","Naziv_Predmeta","Sifra_Predmeta","ID_Smjera","Semestar","ECTS_bodovi","Izborni","Max_Broj_Polaznika") VALUES (3,'Programiranje za inzenjere','PZI',1,3,7,1,20);
+INSERT INTO "Predmet" ("ID_Predmeta","Naziv_Predmeta","Sifra_Predmeta","ID_Smjera","Semestar","ECTS_bodovi","Izborni","Max_Broj_Polaznika") VALUES (4,'Tehnike programiranja','TP',1,2,4,1,40);
+INSERT INTO "PredmetStaff" ("ID_Korisnika","ID_Predmeta") VALUES (1,2);
+INSERT INTO "PredmetStaff" ("ID_Korisnika","ID_Predmeta") VALUES (1,4);
+INSERT INTO "PredmetStaff" ("ID_Korisnika","ID_Predmeta") VALUES (2,2);
+INSERT INTO "PredmetStaff" ("ID_Korisnika","ID_Predmeta") VALUES (1,1);
+INSERT INTO "PredmetStaff" ("ID_Korisnika","ID_Predmeta") VALUES (2,3);
+INSERT INTO "VrstaAktivnosti" ("ID","Naziv") VALUES (1,'Ispit');
+INSERT INTO "VrstaAktivnosti" ("ID","Naziv") VALUES (2,'Zadaca');
+INSERT INTO "VrstaAktivnosti" ("ID","Naziv") VALUES (3,'Projekat');
+INSERT INTO "VrstaAktivnosti" ("ID","Naziv") VALUES (4,'Ostalo');
+INSERT INTO "VrstaAktivnosti" ("ID","Naziv") VALUES (5,'LAB');
+INSERT INTO "Aktivnosti" ("ID_Aktivnosti","ID_Predmeta","Procenat","Naziv_Aktivnosti","Opis_Aktivnosti","Tip_Aktivnosti") VALUES (1,3,50,'prvi parcijalni','nesto5',1);
+INSERT INTO "Aktivnosti" ("ID_Aktivnosti","ID_Predmeta","Procenat","Naziv_Aktivnosti","Opis_Aktivnosti","Tip_Aktivnosti") VALUES (2,4,20,'drugi parcijalni','nesto1',1);
+INSERT INTO "Aktivnosti" ("ID_Aktivnosti","ID_Predmeta","Procenat","Naziv_Aktivnosti","Opis_Aktivnosti","Tip_Aktivnosti") VALUES (3,2,26,'zadaca 1','nesto2',2);
+INSERT INTO "Aktivnosti" ("ID_Aktivnosti","ID_Predmeta","Procenat","Naziv_Aktivnosti","Opis_Aktivnosti","Tip_Aktivnosti") VALUES (4,1,5,'prisustvo','nesto3',4);
+INSERT INTO "Aktivnosti" ("ID_Aktivnosti","ID_Predmeta","Procenat","Naziv_Aktivnosti","Opis_Aktivnosti","Tip_Aktivnosti") VALUES (5,1,90,'integralni','nesto4',1);
+INSERT INTO "Aktivnosti" ("ID_Aktivnosti","ID_Predmeta","Procenat","Naziv_Aktivnosti","Opis_Aktivnosti","Tip_Aktivnosti") VALUES (6,3,40,'Projekat Zamger','Izrada studentskog sistema',3);
+INSERT INTO "Aktivnosti" ("ID_Aktivnosti","ID_Predmeta","Procenat","Naziv_Aktivnosti","Opis_Aktivnosti","Tip_Aktivnosti") VALUES (7,3,15,'labaratorijska vjezba','nesto',5);
+INSERT INTO "Aktivnosti" ("ID_Aktivnosti","ID_Predmeta","Procenat","Naziv_Aktivnosti","Opis_Aktivnosti","Tip_Aktivnosti") VALUES (8,3,20,'zadaca 2','nesto6',2);
+INSERT INTO "Aktivnosti" ("ID_Aktivnosti","ID_Predmeta","Procenat","Naziv_Aktivnosti","Opis_Aktivnosti","Tip_Aktivnosti") VALUES (9,2,5,'laboratorijska vjezba','nesto7',5);
+INSERT INTO "Aktivnosti" ("ID_Aktivnosti","ID_Predmeta","Procenat","Naziv_Aktivnosti","Opis_Aktivnosti","Tip_Aktivnosti") VALUES (11,2,40,'prvi parcijalni','asdas',1);
+INSERT INTO "Messages" ("ID","AuthorID","Subject","Poruke","Datum","Vrijeme") VALUES (3,-1,'dummykgfhgfhffjhfjfjfjfjvgkggkg','pokusajwahadhjdhfjkhsdfjkhsak',4628,23793);
+INSERT INTO "MsgReceivers" ("UserID","MsgID") VALUES (5,3);
+INSERT INTO "Rokovi" ("ID_Roka","ID_Aktivnosti","Datum_Pocetka","Vrijeme_Pocetka","Datum_Kraja","Vrijeme_Kraja","Datum_Prijave","Vrijeme_Prijave","ID_Predmeta") VALUES (1,5,20231229,90000,0,0,2555562,111427,1);
+INSERT INTO "Rokovi" ("ID_Roka","ID_Aktivnosti","Datum_Pocetka","Vrijeme_Pocetka","Datum_Kraja","Vrijeme_Kraja","Datum_Prijave","Vrijeme_Prijave","ID_Predmeta") VALUES (2,1,20220609,113000,0,0,545256,112023,2);
+INSERT INTO "Rokovi" ("ID_Roka","ID_Aktivnosti","Datum_Pocetka","Vrijeme_Pocetka","Datum_Kraja","Vrijeme_Kraja","Datum_Prijave","Vrijeme_Prijave","ID_Predmeta") VALUES (3,2,20230210,90000,0,0,515245,90705,3);
+INSERT INTO "Rokovi" ("ID_Roka","ID_Aktivnosti","Datum_Pocetka","Vrijeme_Pocetka","Datum_Kraja","Vrijeme_Kraja","Datum_Prijave","Vrijeme_Prijave","ID_Predmeta") VALUES (4,5,20230303,90000,0,0,515585,111111,4);
+INSERT INTO "Rokovi" ("ID_Roka","ID_Aktivnosti","Datum_Pocetka","Vrijeme_Pocetka","Datum_Kraja","Vrijeme_Kraja","Datum_Prijave","Vrijeme_Prijave","ID_Predmeta") VALUES (5,3,0,0,20220609,113000,0,0,2);
+INSERT INTO "Rokovi" ("ID_Roka","ID_Aktivnosti","Datum_Pocetka","Vrijeme_Pocetka","Datum_Kraja","Vrijeme_Kraja","Datum_Prijave","Vrijeme_Prijave","ID_Predmeta") VALUES (6,7,0,0,20230210,9000,0,112023,3);
+INSERT INTO "OcjeneIspita" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (1,2,2,'8');
+INSERT INTO "OcjeneIspita" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (2,2,4,NULL);
+INSERT INTO "OcjeneIspita" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (3,2,1,NULL);
+INSERT INTO "OcjeneIspita" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (4,5,4,NULL);
+INSERT INTO "OcjeneIspita" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (5,5,3,NULL);
+INSERT INTO "OcjeneIspita" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (6,5,5,'9');
+INSERT INTO "OcjeneIspita" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (7,6,5,NULL);
+INSERT INTO "OcjeneIspita" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (8,7,5,NULL);
+INSERT INTO "OcjeneIspita" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (9,2,3,NULL);
+INSERT INTO "OcjeneIspita" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (10,2,7,NULL);
+INSERT INTO "OcjeneIspita" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (11,5,7,NULL);
+INSERT INTO "OcjeneIspita" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (12,2,8,NULL);
+INSERT INTO "OcjeneIspita" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (13,2,9,NULL);
+INSERT INTO "OcjeneIspita" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (14,5,8,NULL);
+INSERT INTO "OcjeneIspita" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (15,5,9,NULL);
+INSERT INTO "PolazniciAktivnosti" ("ID_Korisnika","ID_Aktivnosti") VALUES (2,4);
+INSERT INTO "PolazniciAktivnosti" ("ID_Korisnika","ID_Aktivnosti") VALUES (2,1);
+INSERT INTO "PolazniciAktivnosti" ("ID_Korisnika","ID_Aktivnosti") VALUES (2,2);
+INSERT INTO "PolazniciAktivnosti" ("ID_Korisnika","ID_Aktivnosti") VALUES (5,4);
+INSERT INTO "PolazniciAktivnosti" ("ID_Korisnika","ID_Aktivnosti") VALUES (5,3);
+INSERT INTO "PolazniciAktivnosti" ("ID_Korisnika","ID_Aktivnosti") VALUES (5,5);
+INSERT INTO "PolazniciAktivnosti" ("ID_Korisnika","ID_Aktivnosti") VALUES (7,5);
+INSERT INTO "PolazniciAktivnosti" ("ID_Korisnika","ID_Aktivnosti") VALUES (6,5);
+INSERT INTO "PolazniciAktivnosti" ("ID_Korisnika","ID_Aktivnosti") VALUES (2,3);
+INSERT INTO "PolazniciAktivnosti" ("ID_Korisnika","ID_Aktivnosti") VALUES (2,7);
+INSERT INTO "PolazniciAktivnosti" ("ID_Korisnika","ID_Aktivnosti") VALUES (5,7);
+INSERT INTO "PolazniciAktivnosti" ("ID_Korisnika","ID_Aktivnosti") VALUES (2,8);
+INSERT INTO "PolazniciAktivnosti" ("ID_Korisnika","ID_Aktivnosti") VALUES (2,9);
+INSERT INTO "PolazniciAktivnosti" ("ID_Korisnika","ID_Aktivnosti") VALUES (5,8);
+INSERT INTO "PolazniciAktivnosti" ("ID_Korisnika","ID_Aktivnosti") VALUES (5,9);
+INSERT INTO "OpenPredaja" ("ID","Naziv","Datum_Predaje","Vrijeme_Predaje","ID_Aktivnosti") VALUES (1,'test1',11112025,1111,1);
+INSERT INTO "OpenPredaja" ("ID","Naziv","Datum_Predaje","Vrijeme_Predaje","ID_Aktivnosti") VALUES (2,'test1',11112025,1111,1);
+INSERT INTO "OpenPredaja" ("ID","Naziv","Datum_Predaje","Vrijeme_Predaje","ID_Aktivnosti") VALUES (3,'test1',11112025,1111,1);
+INSERT INTO "OpenPredaja" ("ID","Naziv","Datum_Predaje","Vrijeme_Predaje","ID_Aktivnosti") VALUES (4,'test1',11112025,1111,1);
+INSERT INTO "OpenPredaja" ("ID","Naziv","Datum_Predaje","Vrijeme_Predaje","ID_Aktivnosti") VALUES (5,'test1',11112025,1111,1);
+INSERT INTO "OpenPredaja" ("ID","Naziv","Datum_Predaje","Vrijeme_Predaje","ID_Aktivnosti") VALUES (6,'test1',11112025,1111,1);
+INSERT INTO "OpenPredaja" ("ID","Naziv","Datum_Predaje","Vrijeme_Predaje","ID_Aktivnosti") VALUES (7,'test1',11112025,1111,1);
+INSERT INTO "OpenPredaja" ("ID","Naziv","Datum_Predaje","Vrijeme_Predaje","ID_Aktivnosti") VALUES (8,'test1',11112025,1111,1);
+INSERT INTO "OpenPredaja" ("ID","Naziv","Datum_Predaje","Vrijeme_Predaje","ID_Aktivnosti") VALUES (9,'test1',11112025,1111,1);
+INSERT INTO "OpenPredaja" ("ID","Naziv","Datum_Predaje","Vrijeme_Predaje","ID_Aktivnosti") VALUES (10,'test1',11112025,1111,1);
+INSERT INTO "OcjeneLabZadace" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (1,5,3,'70');
+INSERT INTO "OcjeneLabZadace" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (2,5,7,NULL);
+INSERT INTO "OcjeneLabZadace" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (3,2,3,NULL);
+INSERT INTO "OcjeneLabZadace" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (4,2,7,NULL);
+INSERT INTO "OcjeneLabZadace" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (7,2,9,'50');
+INSERT INTO "OcjeneLabZadace" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (16,5,9,NULL);
+INSERT INTO "OcjeneLabZadace" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (17,2,4,NULL);
+INSERT INTO "OcjeneLabZadace" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (18,2,1,NULL);
+INSERT INTO "OcjeneLabZadace" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (19,2,2,NULL);
+INSERT INTO "OcjeneLabZadace" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (20,5,4,NULL);
+INSERT INTO "OcjeneLabZadace" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (21,5,5,NULL);
+INSERT INTO "OcjeneLabZadace" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (22,7,5,NULL);
+INSERT INTO "OcjeneLabZadace" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (23,6,5,NULL);
+INSERT INTO "OcjeneLabZadace" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (24,2,8,NULL);
+INSERT INTO "OcjeneLabZadace" ("ID","ID_Korisnika","ID_Aktivnosti","Ocjena") VALUES (25,5,8,NULL);
+INSERT INTO "UpisPredmeta" ("ID","ID_Studenta","ID_Predmeta") VALUES (1,5,1);
+INSERT INTO "UpisPredmeta" ("ID","ID_Studenta","ID_Predmeta") VALUES (2,5,2);
+INSERT INTO "UpisPredmeta" ("ID","ID_Studenta","ID_Predmeta") VALUES (3,5,3);
+INSERT INTO "UpisPredmeta" ("ID","ID_Studenta","ID_Predmeta") VALUES (4,5,4);
+INSERT INTO "Prijavljeni_ispiti" ("ID_Predmeta","ID_Studenta","ID_Roka") VALUES (4,5,4);
+INSERT INTO "Predaja" ("ID_Predaje","ID_OpenPredaja","ID_Studenta","Datoteka","Datum_Predaje","Vrijeme_Predaje","Predano") VALUES (1,6,5,'lab1',0,0,0);
+INSERT INTO "Predaja" ("ID_Predaje","ID_OpenPredaja","ID_Studenta","Datoteka","Datum_Predaje","Vrijeme_Predaje","Predano") VALUES (2,5,5,'dz1',0,0,0);
+INSERT INTO "Predaja" ("ID_Predaje","ID_OpenPredaja","ID_Studenta","Datoteka","Datum_Predaje","Vrijeme_Predaje","Predano") VALUES (3,5,5,'dz2',20220604,174601,1);
+INSERT INTO "Predaja" ("ID_Predaje","ID_OpenPredaja","ID_Studenta","Datoteka","Datum_Predaje","Vrijeme_Predaje","Predano") VALUES (4,6,5,'lab2',20230205,205904,1);
+INSERT INTO "Predaja" ("ID_Predaje","ID_OpenPredaja","ID_Studenta","Datoteka","Datum_Predaje","Vrijeme_Predaje","Predano") VALUES (5,6,5,'lab4',0,0,0);
+INSERT INTO "Predaja" ("ID_Predaje","ID_OpenPredaja","ID_Studenta","Datoteka","Datum_Predaje","Vrijeme_Predaje","Predano") VALUES (6,5,5,'dz3',0,0,0);
+INSERT INTO "Predaja" ("ID_Predaje","ID_OpenPredaja","ID_Studenta","Datoteka","Datum_Predaje","Vrijeme_Predaje","Predano") VALUES (7,5,5,'dz4',0,0,0);
+INSERT INTO "Predaja" ("ID_Predaje","ID_OpenPredaja","ID_Studenta","Datoteka","Datum_Predaje","Vrijeme_Predaje","Predano") VALUES (8,5,5,'dz5',20220607,174601,1);
+INSERT INTO "Predaja" ("ID_Predaje","ID_OpenPredaja","ID_Studenta","Datoteka","Datum_Predaje","Vrijeme_Predaje","Predano") VALUES (9,6,5,'lab5',20230207,152904,1);
+INSERT INTO "Predaja" ("ID_Predaje","ID_OpenPredaja","ID_Studenta","Datoteka","Datum_Predaje","Vrijeme_Predaje","Predano") VALUES (10,6,5,'lab3',20230206,192304,1);

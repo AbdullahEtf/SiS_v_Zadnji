@@ -163,12 +163,12 @@ void homeworkGrades(const gui::Image* pImage, td::INT4 SubjectID)
 	}
 
 	//InvoiceSimple
-	td::String configName("ExamGradesRep");
+	td::String configName("ExamGradesLabHW");
 
 	rpt::IViewer* pRepView = rpt::IViewer::create(configName, repData);
 	if (pRepView)
 	{
-		pRepView->show(gui::tr("ExamGradesRep"), pImage);
+		pRepView->show(gui::tr("ExamGradesLabHW"), pImage);
 
 	}
 
@@ -217,12 +217,12 @@ void labGrades(const gui::Image* pImage, td::INT4 SubjectID)
 	}
 
 	//InvoiceSimple
-	td::String configName("ExamGradesRep");
+	td::String configName("ExamGradesLabHW");
 
 	rpt::IViewer* pRepView = rpt::IViewer::create(configName, repData);
 	if (pRepView)
 	{
-		pRepView->show(gui::tr("ExamGradesRep"), pImage);
+		pRepView->show(gui::tr("ExamGradesLabHW"), pImage);
 
 	}
 

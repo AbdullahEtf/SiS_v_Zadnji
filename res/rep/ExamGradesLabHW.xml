@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report paperOrientation="portrait" paperSize="A4" zoom="200" resGroup="Extern">
+	<Layout lMargin="10" tMargin="10" rMargin="10" bMargin="10" memoH="MemoExternH" memoF="MemoExternF_GR" pageH="PageHeaderExt" pageF="PageFooterSimple" docH="Intro_Simple" docF="Summary_Invoice">	
+		<Header layout="vertical" showOnEveryPage="true" showOnFirstPage="true" height="9" backClr="BackHead" hAlign="right" vAlign="center" font="BodyHead">
+			<Line lineWidth="0.4" lineStyle="solid" width="-1" height="0"/> <!-- width == -1 means it will take with of its parent-->
+			<Row height="10">
+				<TrText hAlign="left" width="10" name="Pos"/>
+				<TrText hAlign="left" width="20" name="ime"/>
+				<TrText hAlign="left" width="50" name="prezime"/>
+				<TrText hAlign="left" width="25" name="Indeks"/>
+				<TrText hAlign="left" width="50" name="NameAktivnosti"/>
+				<TrText hAlign="right" width="25" name="Procenat"/>
+
+
+			</Row>
+		</Header>
+		<Body layout="vertical" height="9" backClr2="BackBody" hAlign="right" vAlign="center" font="Body">
+			<Row height="4.5">
+				<Numeric type="int4" showThSep="false" hideZero="false" hAlign="left" width="10" name="#Pos"/>
+				<Text hAlign="left"  width="20" name="Ime"/>
+				<Text hAlign="left"  width="50" name="Prezime"/>				
+				<Text hAlign="left"  width="25" name="Indeks"/>				
+				<Text hAlign="left"  width="50" name="Naziv_Aktivnosti"/>
+				<Text hAlign="right"  width="25" name="Procenat"/>
+
+			</Row>
+		</Body>
+		<Footer layout="vertical" height="0.4" backClr="BackFoot" font="BodyFoot">
+			<Line lineWidth="0.4" lineStyle="solid" width="-1" height="0.4"/>
+		</Footer>			
+	</Layout>
+</Report>

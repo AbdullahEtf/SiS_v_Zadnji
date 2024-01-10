@@ -1,11 +1,9 @@
-
-CREATE TABLE "Pozicija" (
+CREATE TABLE IF NOT EXISTS "Pozicija" (
 	"ID"	INTEGER NOT NULL,
 	"Naziv"	TEXT NOT NULL,
 	PRIMARY KEY("ID")
 );
-
-CREATE TABLE "Korisnici" (
+CREATE TABLE IF NOT EXISTS "Korisnici" (
 	"ID"	INTEGER NOT NULL,
 	"Prezime"	TEXT NOT NULL,
 	"Ime"	TEXT NOT NULL,
@@ -14,76 +12,60 @@ CREATE TABLE "Korisnici" (
 	"JMBG"	TEXT NOT NULL,
 	"Adresa"	TEXT NOT NULL,
 	"DatumRodjenja"	INTEGER NOT NULL,
-	"Indeks"	TEXT NOT NULL ,
+	"Indeks"	TEXT NOT NULL,
 	FOREIGN KEY("PozicijaID") REFERENCES "Pozicija"("ID"),
 	PRIMARY KEY("ID")
 );
-
-CREATE TABLE "KorisniciPozicija" (
+CREATE TABLE IF NOT EXISTS "KorisniciPozicija" (
 	"ID"	INTEGER NOT NULL,
 	"IDKorisnici"	INTEGER NOT NULL,
 	"IDPozicija"	INTEGER NOT NULL,
-	PRIMARY KEY("ID"),
 	FOREIGN KEY("IDPozicija") REFERENCES "Pozicija"("ID"),
-	FOREIGN KEY("IDKorisnici") REFERENCES "Korisnici"("ID")
+	FOREIGN KEY("IDKorisnici") REFERENCES "Korisnici"("ID"),
+	PRIMARY KEY("ID")
 );
-
-
-
-CREATE TABLE "Smjer" (
+CREATE TABLE IF NOT EXISTS "Smjer" (
 	"ID_Smjera"	INTEGER NOT NULL,
 	"Naziv_Smjera"	TEXT NOT NULL,
 	"Skr_Naziv_Smjera"	TEXT NOT NULL,
 	PRIMARY KEY("ID_Smjera")
 );
-
-
-
-
-
-
-
-
-
-CREATE TABLE "Upis" (
+CREATE TABLE IF NOT EXISTS "Upis" (
 	"ID"	INTEGER NOT NULL,
 	"Indeks"	TEXT NOT NULL,
 	"ID_Smjera"	INTEGER NOT NULL,
 	"Semestar"	INTEGER NOT NULL,
-	PRIMARY KEY("ID"),
 	FOREIGN KEY("ID_Smjera") REFERENCES "Smjer"("ID_Smjera"),
-	FOREIGN KEY("Indeks") REFERENCES "Korisnici"("Indeks")
+	FOREIGN KEY("Indeks") REFERENCES "Korisnici"("Indeks"),
+	PRIMARY KEY("ID")
 );
-
-
-
-CREATE TABLE "ClassRoles" (
-           	"ID"    	INTEGER NOT NULL,
-           	"Type"   TEXT NOT NULL,
-PRIMARY KEY("ID")
+CREATE TABLE IF NOT EXISTS "ClassRoles" (
+	"ID"	INTEGER NOT NULL,
+	"Type"	TEXT NOT NULL,
+	PRIMARY KEY("ID")
 );
- CREATE TABLE "TipPredavanja" (
+CREATE TABLE IF NOT EXISTS "TipPredavanja" (
 	"ID"	INTEGER NOT NULL,
 	"Naziv"	TEXT NOT NULL,
 	PRIMARY KEY("ID")
 );
-CREATE TABLE "Classrooms" (
-           	"ID"    	INTEGER NOT NULL,
-           	"Name" TEXT NOT NULL,
-           	"Location"       	TEXT NOT NULL,
-           	"Type"   INTEGER NOT NULL,
-           	"NumSeats"    	INTEGER NOT NULL,
-           	FOREIGN KEY("Type") REFERENCES "ClassRoles"("ID"),
-           	PRIMARY KEY("ID")
+CREATE TABLE IF NOT EXISTS "Classrooms" (
+	"ID"	INTEGER NOT NULL,
+	"Name"	TEXT NOT NULL,
+	"Location"	TEXT NOT NULL,
+	"Type"	INTEGER NOT NULL,
+	"NumSeats"	INTEGER NOT NULL,
+	FOREIGN KEY("Type") REFERENCES "ClassRoles"("ID"),
+	PRIMARY KEY("ID")
 );
-CREATE TABLE "UserLogin" (
-           	"ID"    	INTEGER NOT NULL,
-           	"Username"    	TEXT NOT NULL UNIQUE,
-           	"Password"     	TEXT NOT NULL,
-           	PRIMARY KEY("ID"),
-           	FOREIGN KEY("ID") REFERENCES "Korisnici"("ID")
+CREATE TABLE IF NOT EXISTS "UserLogin" (
+	"ID"	INTEGER NOT NULL,
+	"Username"	TEXT NOT NULL UNIQUE,
+	"Password"	TEXT NOT NULL,
+	FOREIGN KEY("ID") REFERENCES "Korisnici"("ID"),
+	PRIMARY KEY("ID")
 );
-CREATE TABLE "Predmet" (
+CREATE TABLE IF NOT EXISTS "Predmet" (
 	"ID_Predmeta"	INTEGER NOT NULL UNIQUE,
 	"Naziv_Predmeta"	TEXT NOT NULL,
 	"Sifra_Predmeta"	TEXT NOT NULL,
@@ -92,71 +74,49 @@ CREATE TABLE "Predmet" (
 	"ECTS_bodovi"	INTEGER NOT NULL,
 	"Izborni"	INTEGER NOT NULL,
 	"Max_Broj_Polaznika"	INTEGER NOT NULL,
-	PRIMARY KEY("ID_Predmeta"),
-	FOREIGN KEY("ID_Smjera") REFERENCES "Smjer"("ID_Smjera")
+	FOREIGN KEY("ID_Smjera") REFERENCES "Smjer"("ID_Smjera"),
+	PRIMARY KEY("ID_Predmeta")
 );
-
-CREATE TABLE "Termini" (
-"ID" INTEGER NOT NULL,
-"Datum" INTEGER NOT NULL,
-"TipPredavanjaID" INTEGER NOT NULL,
-"Predmet_ID" INTEGER NOT NULL,
-"Vrijeme" INTEGER NOT NULL,
-CONSTRAINT "PK_Termini" PRIMARY KEY("ID"),
-FOREIGN KEY("Predmet_ID") REFERENCES "Predmet"("ID_Predmeta"),
-FOREIGN KEY("TipPredavanjaID") REFERENCES "TipPredavanja"("ID")
+CREATE TABLE IF NOT EXISTS "Termini" (
+	"ID"	INTEGER NOT NULL,
+	"Datum"	INTEGER NOT NULL,
+	"TipPredavanjaID"	INTEGER NOT NULL,
+	"Predmet_ID"	INTEGER NOT NULL,
+	"Vrijeme"	INTEGER NOT NULL,
+	FOREIGN KEY("TipPredavanjaID") REFERENCES "TipPredavanja"("ID"),
+	FOREIGN KEY("Predmet_ID") REFERENCES "Predmet"("ID_Predmeta"),
+	CONSTRAINT "PK_Termini" PRIMARY KEY("ID")
 );
-
-CREATE TABLE "Prisustvo" (
+CREATE TABLE IF NOT EXISTS "Prisustvo" (
 	"ID_termina"	INTEGER NOT NULL,
 	"ID_studenta"	INTEGER NOT NULL,
-	FOREIGN KEY("ID_termina") REFERENCES "Termini"("ID"),
-	FOREIGN KEY("ID_studenta") REFERENCES "Korisnici"("ID")
+	FOREIGN KEY("ID_studenta") REFERENCES "Korisnici"("ID"),
+	FOREIGN KEY("ID_termina") REFERENCES "Termini"("ID")
 );
-
-
-CREATE TABLE "PredmetStaff" (
+CREATE TABLE IF NOT EXISTS "PredmetStaff" (
 	"ID_Korisnika"	INTEGER NOT NULL,
 	"ID_Predmeta"	INTEGER NOT NULL,
-	PRIMARY KEY("ID_Korisnika","ID_Predmeta"),
 	FOREIGN KEY("ID_Korisnika") REFERENCES "Korisnici"("ID"),
-	FOREIGN KEY("ID_Predmeta") REFERENCES "Predmet"("ID_Predmeta")
+	FOREIGN KEY("ID_Predmeta") REFERENCES "Predmet"("ID_Predmeta"),
+	PRIMARY KEY("ID_Korisnika","ID_Predmeta")
 );
-
-CREATE TABLE "VrstaAktivnosti" (
+CREATE TABLE IF NOT EXISTS "VrstaAktivnosti" (
 	"ID"	INTEGER NOT NULL,
 	"Naziv"	TEXT,
 	PRIMARY KEY("ID")
 );
-
-CREATE TABLE "Aktivnosti" (
+CREATE TABLE IF NOT EXISTS "Aktivnosti" (
 	"ID_Aktivnosti"	INTEGER NOT NULL,
 	"ID_Predmeta"	INTEGER NOT NULL,
 	"Procenat"	INTEGER NOT NULL,
 	"Naziv_Aktivnosti"	TEXT NOT NULL,
 	"Opis_Aktivnosti"	INTEGER NOT NULL,
 	"Tip_Aktivnosti"	INTEGER NOT NULL,
-	FOREIGN KEY("ID_Predmeta") REFERENCES "Predmet"("ID_Predmeta"),
 	FOREIGN KEY("Tip_Aktivnosti") REFERENCES "VrstaAktivnosti"("ID"),
+	FOREIGN KEY("ID_Predmeta") REFERENCES "Predmet"("ID_Predmeta"),
 	PRIMARY KEY("ID_Aktivnosti")
 );
-
-CREATE TABLE "PolazniciAktivnosti" (
-	"ID_Korisnika"	INTEGER NOT NULL,
-	"ID_Aktivnosti"	INTEGER NOT NULL,
-	PRIMARY KEY("ID_Aktivnosti","ID_Korisnika")
-);
-
-
-
-
-
-
-
-
-
-
-CREATE TABLE "Messages" (
+CREATE TABLE IF NOT EXISTS "Messages" (
 	"ID"	INTEGER NOT NULL,
 	"AuthorID"	INTEGER NOT NULL,
 	"Subject"	TEXT NOT NULL,
@@ -166,17 +126,16 @@ CREATE TABLE "Messages" (
 	FOREIGN KEY("AuthorID") REFERENCES "Korisnici"("ID"),
 	PRIMARY KEY("ID")
 );
-
-CREATE TABLE "MsgReceivers" (
+CREATE TABLE IF NOT EXISTS "MsgReceivers" (
 	"UserID"	INTEGER NOT NULL,
 	"MsgID"	INTEGER NOT NULL,
-	FOREIGN KEY("MsgID") REFERENCES "Messages"("ID"),
 	FOREIGN KEY("UserID") REFERENCES "Korisnici"("ID"),
+	FOREIGN KEY("MsgID") REFERENCES "Messages"("ID"),
 	PRIMARY KEY("UserID","MsgID")
 );
-
-CREATE TABLE "Curriculum" (
+CREATE TABLE IF NOT EXISTS "Curriculum" (
 	"ID_Smjera"	INTEGER NOT NULL,
+	"Semestar"	INTEGER NOT NULL,
 	"ID_Predmeta"	INTEGER NOT NULL,
 	"Shortname"	TEXT NOT NULL,
 	"ECTS"	INTEGER NOT NULL,
@@ -184,47 +143,25 @@ CREATE TABLE "Curriculum" (
 	FOREIGN KEY("ID_Predmeta") REFERENCES "Predmet"("ID_Predmeta"),
 	PRIMARY KEY("ID_Smjera","ID_Predmeta")
 );
-
-
-CREATE TABLE Polozeni_Predmeti (
-"ID" INTEGER NOT NULL,
-"ID_Predmeta" INTEGER NOT NULL,
-"ID_Studenta" INTEGER NOT NULL,
-"Polozen" INTEGER NOT NULL,
-"Prijavljen" INTEGER NOT NULL,
-FOREIGN KEY("ID_Predmeta") REFERENCES "Predmet"("ID_Predmeta"),
-FOREIGN KEY("ID_Studenta") REFERENCES "Korisnici"("ID"),
-PRIMARY KEY ("ID")
-);
-
-
-
-
-
-CREATE TABLE "SAOStudentTicket" (
-	"ID"	INTEGER,
-	"Indeks"	TEXT NOT NULL,
-	"ID_Ticket"	INTEGER NOT NULL,
-	"Req_Title" TEXT,
-	"Request"	TEXT,
-	FOREIGN KEY("ID_Ticket") REFERENCES "SAOTicket"("ID"),
-	PRIMARY KEY("ID" AUTOINCREMENT)
-);
-
-CREATE TABLE "UpisPredmet" (
-    "ID" INTEGER PRIMARY KEY AUTOINCREMENT,
-    "Indeks" TEXT NOT NULL,
-    "ID_Predmeta" INTEGER,
-    FOREIGN KEY("ID_Predmeta") REFERENCES "Predmet"("ID_Predmeta")
-);
-
-CREATE TABLE "SAOTicket" (
+CREATE TABLE IF NOT EXISTS "SAOStudentTicket" (
 	"ID"	INTEGER NOT NULL,
-	"Ticket"	TEXT NOT NULL,
+	"Indeks"	TEXT NOT NULL,
+	"Ticket_Tip"	TEXT NOT NULL,
+	"Req_Title"	TEXT NOT NULL,
+	"Request"	TEXT,
+	"Status"	TEXT,
+	"Attachment"	BLOB,
+	"Name_attachment"	TEXT,
 	PRIMARY KEY("ID")
 );
-
-CREATE TABLE "Rokovi" (
+CREATE TABLE IF NOT EXISTS "UpisPredmet" (
+	"ID"	INTEGER,
+	"Indeks"	TEXT NOT NULL,
+	"ID_Predmeta"	INTEGER,
+	FOREIGN KEY("ID_Predmeta") REFERENCES "Predmet"("ID_Predmeta"),
+	PRIMARY KEY("ID" AUTOINCREMENT)
+);
+CREATE TABLE IF NOT EXISTS "Rokovi" (
 	"ID_Roka"	INTEGER NOT NULL,
 	"ID_Aktivnosti"	INTEGER NOT NULL,
 	"Datum_Pocetka"	INTEGER NOT NULL,
@@ -234,61 +171,84 @@ CREATE TABLE "Rokovi" (
 	"Datum_Prijave"	INTEGER NOT NULL,
 	"Vrijeme_Prijave"	INTEGER NOT NULL,
 	"ID_Predmeta"	INTEGER NOT NULL,
-	PRIMARY KEY("ID_Roka"),
 	FOREIGN KEY("ID_Predmeta") REFERENCES "Predmet"("ID_Predmeta"),
-	FOREIGN KEY("ID_Aktivnosti") REFERENCES "Aktivnosti"("ID_Aktivnosti")
+	FOREIGN KEY("ID_Aktivnosti") REFERENCES "Aktivnosti"("ID_Aktivnosti"),
+	PRIMARY KEY("ID_Roka")
 );
-
-
-
-CREATE TABLE "SAOStudentTicket" (
-	"ID"	INTEGER,
-	"Indeks"	TEXT NOT NULL,
-	"Ticket_Tip"	TEXT NOT NULL,
-	"Req_Title"	TEXT NOT NULL,
-	"Request"	TEXT,
-	"Attachment"	BLOB,
-	"Status"	TEXT,
-	PRIMARY KEY("ID" AUTOINCREMENT)
-);
-
-CREATE TABLE "OpenPredaja" (
-	"ID"	INTEGER NOT NULL,
-	"Naziv"	TEXT NOT NULL,
-	"Datum_Predaje"	INTEGER NOT NULL,
-	"Vrijeme_Predaje"	INTEGER NOT NULL,
-	PRIMARY KEY("ID")
-);
-
-CREATE TABLE "DokumentiOpenPredaja" (
+CREATE TABLE IF NOT EXISTS "DokumentiOpenPredaja" (
 	"ID"	INTEGER NOT NULL,
 	"Dokumenti"	BLOB,
 	"ID_Dokumenta"	INTEGER NOT NULL,
 	FOREIGN KEY("ID_Dokumenta") REFERENCES "OpenPredaja"("ID"),
 	PRIMARY KEY("ID")
 );
-
-
-CREATE TABLE "Predaja" (
-	"ID_Predaje"	INTEGER NOT NULL,
-	"ID_Roka"	INTEGER NOT NULL,
-	"ID_Studenta"	INTEGER NOT NULL,
-	"Datoteka"	BLOB NOT NULL,
-	"Datum_Predaje"	INTEGER NOT NULL,
-	"Vrijeme_Predaje"	INTEGER NOT NULL,
-	"Predano"	INTEGER NOT NULL, // predano 1, nije predano 0
-	FOREIGN KEY("ID_Studenta") REFERENCES "Korisnici"("ID"),
-	PRIMARY KEY("ID_Predaje"),
-	FOREIGN KEY("ID_Roka") REFERENCES "Rokovi"("ID_Roka")
-);
-
-
-CREATE TABLE "OcjeneIspita" (
+CREATE TABLE IF NOT EXISTS "OcjeneIspita" (
 	"ID"	INTEGER NOT NULL,
 	"ID_Korisnika"	INTEGER NOT NULL,
 	"ID_Aktivnosti"	INTEGER NOT NULL,
 	"Ocjena"	TEXT,
-	FOREIGN KEY("ID_Korisnika") REFERENCES "Korisnici"("ID"),
+	PRIMARY KEY("ID"),
 	FOREIGN KEY("ID_Aktivnosti") REFERENCES "Aktivnosti"("ID_Aktivnosti"),
-	PRIMARY KEY("ID")
+	FOREIGN KEY("ID_Korisnika") REFERENCES "Korisnici"("ID")
+);
+CREATE TABLE IF NOT EXISTS "PolazniciAktivnosti" (
+	"ID_Korisnika"	INTEGER NOT NULL,
+	"ID_Aktivnosti"	INTEGER NOT NULL,
+	PRIMARY KEY("ID_Aktivnosti","ID_Korisnika"),
+	FOREIGN KEY("ID_Aktivnosti") REFERENCES "Aktivnosti"("ID_Aktivnosti"),
+	FOREIGN KEY("ID_Korisnika") REFERENCES "Korisnici"("ID")
+);
+CREATE TABLE IF NOT EXISTS "OpenPredaja" (
+	"ID"	INTEGER NOT NULL,
+	"Naziv"	TEXT NOT NULL,
+	"Datum_Predaje"	INTEGER NOT NULL,
+	"Vrijeme_Predaje"	INTEGER NOT NULL,
+	"ID_Aktivnosti"	INTEGER NOT NULL,
+	PRIMARY KEY("ID"),
+	FOREIGN KEY("ID_Aktivnosti") REFERENCES "Aktivnosti"("ID_Aktivnosti")
+);
+CREATE TABLE IF NOT EXISTS "OcjeneLabZadace" (
+	"ID"	INTEGER NOT NULL,
+	"ID_Korisnika"	INTEGER NOT NULL,
+	"ID_Aktivnosti"	INTEGER NOT NULL,
+	"Ocjena"	TEXT,
+	PRIMARY KEY("ID"),
+	FOREIGN KEY("ID_Korisnika") REFERENCES "Korisnici"("ID"),
+	FOREIGN KEY("ID_Aktivnosti") REFERENCES "Aktivnosti"("ID_Aktivnosti")
+);
+CREATE TABLE IF NOT EXISTS "UpisPredmeta" (
+	"ID"	INTEGER,
+	"ID_Studenta"	INTEGER NOT NULL,
+	"ID_Predmeta"	INTEGER,
+	PRIMARY KEY("ID" AUTOINCREMENT),
+	FOREIGN KEY("ID_Predmeta") REFERENCES "Predmet"("ID_Predmeta")
+);
+CREATE TABLE IF NOT EXISTS "Prijavljeni_ispiti" (
+	"ID_Predmeta"	INTEGER NOT NULL,
+	"ID_Studenta"	INTEGER NOT NULL,
+	"ID_Roka"	INTEGER NOT NULL,
+	FOREIGN KEY("ID_Studenta") REFERENCES "Korisnici"("ID"),
+	FOREIGN KEY("ID_Predmeta") REFERENCES "Predmet"("ID_Predmeta"),
+	FOREIGN KEY("ID_Roka") REFERENCES "Rokovi"("ID_Roka")
+);
+CREATE TABLE IF NOT EXISTS "TerminiStudenti" (
+	"ID_Studenta"	INTEGER NOT NULL,
+	"ID_Termina"	INTEGER,
+	"TipPredavanjaID"	INTEGER,
+	PRIMARY KEY("ID_Studenta"),
+	FOREIGN KEY("ID_Studenta") REFERENCES "Korisnici"("ID"),
+	FOREIGN KEY("ID_Termina") REFERENCES "Termini"("ID"),
+	FOREIGN KEY("TipPredavanjaID") REFERENCES "TipPredavanja"("ID")
+);
+CREATE TABLE IF NOT EXISTS "Predaja" (
+	"ID_Predaje"	INTEGER NOT NULL,
+	"ID_OpenPredaja"	INTEGER NOT NULL,
+	"ID_Studenta"	INTEGER NOT NULL,
+	"Datoteka"	BLOB NOT NULL,
+	"Datum_Predaje"	INTEGER NOT NULL,
+	"Vrijeme_Predaje"	INTEGER NOT NULL,
+	"Predano"	INTEGER NOT NULL,
+	PRIMARY KEY("ID_Predaje"),
+	FOREIGN KEY("ID_OpenPredaja") REFERENCES "Rokovi"("ID_Roka"),
+	FOREIGN KEY("ID_Studenta") REFERENCES "Korisnici"("ID")
 );

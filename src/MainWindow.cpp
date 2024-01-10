@@ -580,7 +580,7 @@ bool MainWindow::showGradeLabHomeworkView(td::INT4 SubjectID)
         return true;
 
     ViewGradeLabHomework* pView = new ViewGradeLabHomework(SubjectID);
-    _mainView.addView(pView, tr("viewGradeExam"), &_imgExamGrades);
+    _mainView.addView(pView, tr("viewGradeLabHw"), &_imgExamGrades);
 
     return true;
 }

@@ -274,6 +274,10 @@
 		<Res id="Text edit is not empty. Are you sure you want to replace it with new content?" tr="Polje nije prazno. Da li ste sigurni da želite zamijeniti njegov sadržaj?"/>
 		<Res id="Yes" tr="Da"/>
 		<Res id="No" tr="Ne"/>
+		
+		<Res id="viewGradeLabHW" tr="Ocjene dodataka"/>
+		<Res id="viewExamLabHomework" tr="Ocjena dodataka"/>
+
 
 
 	</Translations>
