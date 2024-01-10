@@ -43,6 +43,7 @@ MainWindow::MainWindow()
     , _imgMessages(":complex")
     , _imgExamGrades(":complex")
     , _imgUpload(":complex")
+    , _imgSAOTicket(":pencil")
 {
     setTitle(tr("SIS"));
     _mainMenuBar.setAsMain(this);
