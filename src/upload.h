@@ -30,9 +30,18 @@
 class ViewUpload : public gui::View
 {
 protected:
+    View _mainView;
     gui::Label _lblIndeks;
    gui::LineEdit _indeks;
 
+   td::INT4 _id;
+   td::INT4 _idr;
+   td::INT4 _ids;
+   td::INT4 _date;
+   td::INT4 _time;
+   td::INT4 _predano;
+
+   gui::TextEdit _textEdit;
 
     gui::Label _lblName;
     gui::LineEdit _name;
@@ -48,6 +57,7 @@ protected:
    gui::Button _btnDEnroll;
     gui::Button _btnReload;
     gui::Button _btnSend;
+    gui::Button _btnUpload;
 
 
 
@@ -75,4 +85,6 @@ protected:
    void populateDataForTable1();
    void populateDataForTable2();
     //virtual bool onChangedSelection(gui::TableEdit* pTE);
+   void showOpenFileDialog();
+   td::INT4 findMaxID();
 };

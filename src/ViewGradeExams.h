@@ -60,6 +60,9 @@ protected:
     gui::Image _imgExamGrades;
     gui::TableEdit _table;
 
+    std::set<td::INT4> _userids;
+
+
     std::vector<td::INT4> _itemsToDelete, _itemsToInsert, _itemsToUpdate;
 public:
 	ViewGradeExams(td::INT4 SubjectID);   // Adnan
