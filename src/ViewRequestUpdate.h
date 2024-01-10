@@ -25,47 +25,66 @@
 #include <fo/FileOperations.h>
 #include <gui/ImageView.h>
 #include <rnd/MinMax.h>
-#include "ViewUsers.h"
+#include "ViewIDs.h"
+#include <gui/FileDialog.h>
+#include <gui/Alert.h>
+#include <fo/FileOperations.h>
+#include <td/BLOB.h>
 #include "Globals.h"
+#include <gui/Window.h>
 
 
-class ViewTicket : public gui::View {
+
+class ViewRequestUpdate : public gui::View {
 private:
 
-	friend class ViewRequestUpdate;
-
 protected:
-	//first row
 	gui::Label _typelbl;
 	gui::LineEdit _type;
 	gui::Label _subjectlbl;
 	gui::LineEdit _subject;
+	gui::LineEdit _attachPath;
 	gui::Label _bodylbl;
 	gui::TextEdit _body;
+	gui::Label _attachlbl;
 
 	//third row
 	gui::HorizontalLayout _hlBtnsDB;
-	gui::Button _btnSend;
-	gui::Button _btnOpen;
+	gui::HorizontalLayout _hlAttach;
+	gui::HorizontalLayout _hlLabels;
+	gui::Button _btnSave;
+	gui::Button _btnAttachment;
 
-	gui::TableEdit _tableTickets;
 	gui::GridLayout _gl;
 	dp::IDatabase* _db;
 	dp::IDataSetPtr _pDS;
+	td::INT4 _IDBaza;
+
+	td::String strFileFullPath;
+	td::String strContent;
+
+	td::String _indeks;
 
 
 public:
-	ViewTicket();
+
+	ViewRequestUpdate(td::String tipKarte, td::String naslov,gui::TextEdit body,td::INT4 id,td::String indeks);
 
 protected:
-	//void populateTypeOfTicket(); POSTO NECEMO IMATI TABELU HOCE LI NAM TREBATI OVA FUNKCIJA?
-	//void populateTypeCombo(gui::DBComboBox& combo);
+
+
+	void showOpenFileDialog();
+
 	bool onClick(gui::Button* pBtn) override;
+
+	void SaveToDatabase();
+
 	bool onAnswer(td::UINT4 questionID, gui::Alert::Answer answer) override;
-	bool sendTicket();
-//	bool onChangedSelection(gui::DBComboBox* pCmb);
-	td::Variant GetStudentIndeks();
-	void populateTableData();
-	void UpdateTable();
+	
+	//void populateDataForStudent();
+	/*void initTableStudent();
+	void populateDataForRequest();
+	void initTableRequest();*/
+
 
 };

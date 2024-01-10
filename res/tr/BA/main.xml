@@ -182,11 +182,17 @@
 		
 		<Res id="saveSureTicket" tr="Jeste li sigurni da želite poslati zahtjev?"/>
 		<Res id="alertPB" tr="Već postoji korisnik sa unesenom šifrom."/>
-		<Res id="typeOfTicket" tr="Vrsta zahtjeva:"/>
+		<Res id="typeOfMessage" tr="Vrsta zahtjeva:"/>
 		<Res id="subject" tr="Naslov:"/>
 		<Res id="send" tr="Pošalji"/>
 		<Res id="sendRequestTT" tr="Pošalji trenutni zahtjev"/>
 		<Res id="OnHold" tr="Na Čekanju"/>
+		<Res id="open" tr="Otvori"/>
+		<Res id="openTT" tr="Više informacija"/>
+		<Res id="attachmentlbl" tr="Privitak:"/>
+		<Res id="attachmentAddLbl" tr="Dodaj"/>
+		<Res id="attachmentTT" tr="Dodaj Privitak"/>
+		<Res id="bodylbl" tr="Tijelo poruke:"/>
 		
 		
 		<Res id="AccessNotAllowed" tr="Nemate pravo pristupa"/>
