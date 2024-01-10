@@ -83,4 +83,5 @@ protected:
     //bool onAnswer(td::UINT4 questionID, gui::Alert::Answer answer);
     void SetCurrentDepartment();
     void SetCurrentSemester();
+    void SetCurrentECTS();
 };

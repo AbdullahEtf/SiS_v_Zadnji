@@ -28,6 +28,7 @@
 
 enum class QuestionIDDDAAAA : td::UINT2 { Saveee };
 enum class QuestionIDA : td::UINT4 { OpenFile = 1, SaveFile };
+enum class WndID : td::UINT4 { SingleWnd = 1, FileOpenDlg, FileSaveDlg, LoginDlg, SettingsDlg };
 
 class ViewTasks : public gui::View
 {
@@ -87,4 +88,7 @@ protected:
     void showOpenFileDialog();
     gui::TextEdit* getTextEdit();
     bool onAnswer(td::UINT4 questionID, gui::Alert::Answer answer);
+    bool onAnswer2(td::UINT4 questionIDA, gui::Alert::Answer answer);
+    bool onClick(gui::FileDialog* pFD, td::UINT4 dlgID);
+    void saveFile(gui::FileDialog* pFD);
 };

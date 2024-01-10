@@ -429,13 +429,7 @@ bool ViewTasks::onClick(gui::Button* pBtn)
         bool isEmpty = pTE->isEmpty();
         if (!isEmpty)
         {
-            //TODO: Add translation for strings
-            //example of async question (_callBackReloadAnswer is called after user picks the answer via buttons)
-#ifdef USE_CALLBACKS
-            showYesNoQuestionAsync(&_callBackReloadAnswer, "Replace data", "Text edit is not empty. Are you sure you want to replace it with new content?", tr("Yes"), tr("No"));
-#else
             showYesNoQuestionAsync(QuestionIDA::OpenFile, this, tr("Replace data"), tr("Text edit is not empty. Are you sure you want to replace it with new content?"), tr("Yes"), tr("No"));
-#endif
         }
         else
             showOpenFileDialog();
@@ -482,6 +476,23 @@ void ViewTasks::openFile(gui::FileDialog* pFD)
         }
     }
 }
+
+void ViewTasks::saveFile(gui::FileDialog* pFD)
+{
+    auto status = pFD->getStatus();
+    if (status == gui::FileDialog::Status::OK)
+    {
+        td::String strFileName = pFD->getFileName();
+        gui::TextEdit* pTE = (*this).getTextEdit();
+        td::String strContent = pTE->getText();
+        fo::OutFile f;
+        if (fo::createTextFile(f, strFileName))
+            f << strContent;
+        f.close();
+    }
+}
+
+
 
 void ViewTasks::showOpenFileDialog()
 {
@@ -600,6 +611,32 @@ bool ViewTasks::onAnswer(td::UINT4 questionID, gui::Alert::Answer answer)//??
                 msg.sendSystemMsgtoUsers(naslov, poruka, userIDs);
             }
         }
+        return true;
+    }
+    return false;
+}
+
+bool ViewTasks::onAnswer2(td::UINT4 questionIDA, gui::Alert::Answer answer)
+{
+    if ((QuestionIDA)questionIDA == QuestionIDA::OpenFile)
+    {
+        if (answer == gui::Alert::Answer::Yes)
+            showOpenFileDialog();
+        return true;
+    }
+    return false;
+}
+
+bool ViewTasks::onClick(gui::FileDialog* pFD, td::UINT4 dlgID)
+{
+    if ((WndID)dlgID == WndID::FileOpenDlg)
+    {
+        openFile(pFD);
+        return true;
+    }
+    else if ((WndID)dlgID == WndID::FileSaveDlg)
+    {
+        saveFile(pFD);
         return true;
     }
     return false;

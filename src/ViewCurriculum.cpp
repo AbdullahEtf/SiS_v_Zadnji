@@ -69,6 +69,7 @@ ViewCurriculum::ViewCurriculum(td::INT4 _departmentID, td::INT4 _semesterID) : _
 
     SetCurrentDepartment();
     SetCurrentSemester();
+    SetCurrentECTS();
     _department.setAsReadOnly();
     _semester.setAsReadOnly();
     loadComboBox("select ID_Predmeta as ID, Naziv_Predmeta as Name from Predmet", _course);
@@ -123,6 +124,8 @@ bool ViewCurriculum::saveData()
     if (!pDel->execute())
         return false;
     size_t nRows = _pDS->getNumberOfRows();
+    SetCurrentSemester();
+    SetCurrentECTS();
     for (size_t i = 0; i < nRows; ++i)
     {
         auto row = _pDS->getRow(i);
@@ -130,7 +133,10 @@ bool ViewCurriculum::saveData()
         shortname = row[1];
         ects = row[2].i4Val();
         smjer = _departmentID;
-        semestar = _semesterID;
+        if (_semesterID > 0 && _semesterID != 0 && _semesterID < 30)
+            semestar = _semesterID;
+        else
+            semestar = 1;
 
 
         if (!pInsStat->execute())
@@ -246,7 +252,10 @@ void ViewCurriculum::populateDSRow(dp::IDataSet::Row& row)
     row[1].setValue(_shortname.getSelectedText());
 
     _ECTS.getValue(val);
-    row[2].setValue(val);
+    if (val > 0 && val < 30 && val != 0)
+        row[2].setValue(val);
+    else
+        row[2].setValue(1);
 }
 
 bool ViewCurriculum::onClick(gui::Button* pBtn)
@@ -375,10 +384,19 @@ void ViewCurriculum::SetCurrentDepartment() {
 }
 
 void ViewCurriculum::SetCurrentSemester() {
-    if (_semesterID < 30 && _semesterID != 0) {
+    if (_semesterID < 30 && _semesterID != 0 && _semesterID>0) {
         td::Variant val;
         val = _semesterID;
         _semester.setValue(val);
     }
     else _semester.setValue(1);
+}
+
+void ViewCurriculum::SetCurrentECTS() {
+    td::Variant val;
+    _ECTS.getValue(val);
+    if (val< 30 && val != 0 && val>0) {
+        _ECTS.setValue(val);
+    }
+    else _ECTS.setValue(1);
 }
