@@ -30,6 +30,7 @@ protected:
     gui::Image _imgCourseenr;
     gui::Image _imgMessages;
     gui::Image _imgExamGrades;
+    gui::Image _imgExamLabHomework;
     gui::Image _imgUpload;
 
     StatusBar _statBar;
@@ -51,6 +52,7 @@ public:
     bool showAllSubjectChoose();
     bool showSubjectChooseActivty();
     bool showSomeSubjectChoose();
+    bool showSomeSubjectChoose2();
     bool showCurriculum();
 
 
@@ -71,6 +73,7 @@ protected:
     bool showCourseEnrollView();
     bool showMessagesView();
     bool showGradeExamView(td::INT4 SubjectID);
+    bool showGradeLabHomeworkView(td::INT4 SubjectID);
     bool showUpload();
     
     //bool onClick(gui::Dialog* pDlg, td::UINT4 dlgID) override;

@@ -20,6 +20,7 @@
 #include "DialogCurriculum.h"
 #include "ViewMessages.h"
 #include "ViewGradeExams.h"
+#include "ViewGradeLabHomework.h"
 #include "upload.h"
 
 #include <rpt/IResources.h>
@@ -42,6 +43,7 @@ MainWindow::MainWindow()
     , _imgCourseenr(":plus")
     , _imgMessages(":complex")
     , _imgExamGrades(":complex")
+    , _imgExamLabHomework(":complex")
     , _imgUpload(":complex")
 {
     setTitle(tr("SIS"));
@@ -240,6 +242,31 @@ bool MainWindow::showSomeSubjectChoose()
 
     return false;
 }
+bool MainWindow::showSomeSubjectChoose2()
+{
+    auto x = Globals::_currentUserRole;
+    if (x != 1)
+    {
+        showAlert(tr("AccessNotAllowed"), "");
+        return true;
+    }
+    DialogChooseSubject* pDlg = new DialogChooseSubject(this);
+    pDlg->setTitle(tr("SubjectChoose"));
+    pDlg->openModal([this](gui::Dialog::Button::ID btn, gui::Dialog* pDlg)
+        {
+            auto btnID = pDlg->getClickedButtonID();
+            if (btnID == gui::Dialog::Button::ID::OK) {
+                auto dlgCS = static_cast<DialogChooseSubject*> (pDlg);
+                //examGrades(&_imgExamAtt, dlgCS->getSubjectID());
+
+                showGradeLabHomeworkView(dlgCS->getSubjectID());
+            }
+            return true;
+        });
+
+    return false;
+}
+
 
 
 
@@ -290,6 +317,7 @@ bool MainWindow::onActionItem(gui::ActionItemDescriptor& aiDesc)
         break; case 140: return showMessagesView();
         break; case 150: return showSomeSubjectChoose();
         break; case 160: return showUpload(); 
+        break; case 170: return showSomeSubjectChoose2();
 
 
 
@@ -540,6 +568,18 @@ bool MainWindow::showGradeExamView(td::INT4 SubjectID)
         return true;
 
     ViewGradeExams* pView = new ViewGradeExams(SubjectID);
+    _mainView.addView(pView, tr("viewGradeExam"), &_imgExamGrades);
+
+    return true;
+}
+
+bool MainWindow::showGradeLabHomeworkView(td::INT4 SubjectID)
+{
+    td::INT4 ViewID = (View_GRADE_LABHOM << 24) | SubjectID;
+    if (focusOnViewPositionWithID(ViewID))
+        return true;
+
+    ViewGradeLabHomework* pView = new ViewGradeLabHomework(SubjectID);
     _mainView.addView(pView, tr("viewGradeExam"), &_imgExamGrades);
 
     return true;

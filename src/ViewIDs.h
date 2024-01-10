@@ -17,7 +17,7 @@
 #define View_MESSAGES 112u
 #define View_GRADE 113u
 #define View_UPLOAD 114u
-
+#define View_GRADE_LABHOM 115u
 
 #define USER_STUDENT 4
 #define MESSAGE_HEADER_LEN 128
