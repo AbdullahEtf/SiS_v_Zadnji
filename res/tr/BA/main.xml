@@ -214,7 +214,9 @@
 		<Res id="enrolledtocourse" tr="Studenti upisani na predmet"/>
 		<Res id="courselbl" tr="Predmet:"/>
 		<Res id="WithdrawCourseTT" tr="Ispiši studenta sa predmeta"/>
-		
+
+		<Res id="tobeenrolled" tr="Upiši sljedeće studente na odsjek"/>
+		<Res id="enrolled" tr="Upisani studenti na odsjek"/>
 		
 		
 		<Res id="saveSureTicket" tr="Jeste li sigurni da želite poslati zahtjev?"/>
