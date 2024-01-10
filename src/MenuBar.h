@@ -1,4 +1,4 @@
-//
+///
 //  Created by Izudin Dzafic on 28/07/2020.
 //  Copyright © 2020 IDz. All rights reserved.
 //
@@ -37,14 +37,18 @@ public:
         items[10].initAsActionItem(tr("viewExamSignUp"), 110);
         items[11].initAsActionItem(tr("viewCourseEnroll"), 120);
         items[12].initAsActionItem(tr("viewTicket"), 130);
-        items[13].initAsActionItem(tr("viewTicket"), 140);
+        items[13].initAsActionItem(tr("viewMessages"), 140);
+        items[14].initAsActionItem(tr("viewExamGrade"), 150);
+        items[15].initAsActionItem(tr("viewUpload"), 160);
+        items[16].initAsActionItem(tr("viewTicketForSAO"), 170);
+
     }
-   
+
 public:
     MenuBar()
-    : gui::MenuBar(2) 
-    , application(10, tr("App"), 2)
-    , sifarnici(20, tr("Sif"), 14)
+        : gui::MenuBar(2)
+        , application(10, tr("App"), 2)
+        , sifarnici(20, tr("Sif"), 17)
 
     {
         populateAppMenu();
@@ -52,9 +56,9 @@ public:
 
         setMenu(0, &application);
         setMenu(1, &sifarnici);
-    
+
     }
-    
+
     ~MenuBar()
     {
     }
