@@ -25,6 +25,7 @@
 #include <fo/FileOperations.h>
 #include <gui/ImageView.h>
 #include <rnd/MinMax.h>
+#include <gui/FileDialog.h>
 #include "ViewUsers.h"
 #include "Globals.h"
 
@@ -32,11 +33,10 @@
 class ViewTicket : public gui::View {
 private:
 
-	friend class ViewRequestUpdate;
-
 protected:
 	//first row
 	gui::Label _typelbl;
+	gui::ComboBox _typeCombo;
 	gui::LineEdit _type;
 	gui::Label _subjectlbl;
 	gui::LineEdit _subject;
@@ -47,17 +47,17 @@ protected:
 	gui::HorizontalLayout _hlBtnsDB;
 	gui::Button _btnSend;
 	gui::Button _btnOpen;
-<<<<<<< Updated upstream
-=======
 	gui::HorizontalLayout _hlBtns;
 	gui::Button _btnAttach;
->>>>>>> Stashed changes
 
 	gui::TableEdit _tableTickets;
 	gui::GridLayout _gl;
 	dp::IDatabase* _db;
 	dp::IDataSetPtr _pDS;
-
+	gui::Label _attachedFile;
+	gui::Label _titleFile;
+	td::String _filePath;
+	cnt::PushBackVector <td::String> _attachedFiles;
 
 public:
 	ViewTicket();
@@ -67,10 +67,15 @@ protected:
 	//void populateTypeCombo(gui::DBComboBox& combo);
 	bool onClick(gui::Button* pBtn) override;
 	bool onAnswer(td::UINT4 questionID, gui::Alert::Answer answer) override;
+	bool sendTicketWithAttachment();
 	bool sendTicket();
-//	bool onChangedSelection(gui::DBComboBox* pCmb);
 	td::Variant GetStudentIndeks();
 	void populateTableData();
+	void selectFiles();
+	void initTable();
+	void populateTypeTicketCombo(gui::ComboBox& combo);
+	bool onChangedSelection(gui::ComboBox* pCmb);
+
 	void UpdateTable();
 
 };
