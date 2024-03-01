@@ -758,6 +758,13 @@ bool MainWindow::showTicketForSaoView() {
 
 bool MainWindow::showGradeSubjectChoose(){
 
+   
+ if (!Globals::isProfessor && !Globals::isAdmin)
+    {
+        showAlert(tr("AccessNotAllowed"), "");
+        return true;
+    }
+
 
     DialogChooseSubject* pDlg = new DialogChooseSubject(this);
      pDlg->setTitle(tr("SubjectChoose"));

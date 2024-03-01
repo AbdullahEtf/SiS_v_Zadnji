@@ -414,6 +414,8 @@
 		 <Res id="reloadTT" tr="Ponovo učitaj poadatke"/>
 		 <Res id="processed" tr="Obrađen"/>
 		 <Res id="successUpdateTicket" tr="Zahtjev ponovo poslan!"/>
+		 <Res id="successTicket" tr="Poslano!"/>
+		 <Res id="successTicketEE" tr="Zahtjev uspješno poslan!"/>
 		  
    
 	</Translations>

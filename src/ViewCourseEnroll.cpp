@@ -154,8 +154,6 @@ void ViewCourseEnroll::populateSemesterCombo(gui::ComboBox& combo)
     combo.addItem("IV");
     combo.addItem("V");
     combo.addItem("VI");
-    combo.addItem("VII");
-    combo.addItem("VIII");
 }
 
 void ViewCourseEnroll::populateDataForEnrolledStudents() {
@@ -274,8 +272,6 @@ bool ViewCourseEnroll::onChangedSelection(gui::ComboBox* pCmb)
         case 3: _semester.setValue(4); break;
         case 4: _semester.setValue(5); break;
         case 5: _semester.setValue(6); break;
-        case 6: _semester.setValue(7); break;
-        case 7: _semester.setValue(8); break;
         }
 
         return true;

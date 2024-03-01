@@ -111,6 +111,13 @@ bool ViewTicket::onClick(gui::Button* pBtn)
 
 	if (pBtn == &_btnSend)
 	{
+		if (_subject.getText().cCompare("")==0)
+		{
+			showAlert(tr("error"), tr("Unesite naslov!"));
+			return true;
+		}
+
+
 		showYesNoQuestionAsync(QuestionID::Save, this, tr("alert"), tr("saveSureTicket"), tr("Yes"), tr("No"));
 		return true;
 	}
@@ -349,11 +356,11 @@ bool ViewTicket::onAnswer(td::UINT4 questionID, gui::Alert::Answer answer) {
 		if (answer == gui::Alert::Answer::Yes) {
 			if (_attachedFiles.isEmpty()) {
 				sendTicket();
-				showAlert(tr("succes"), tr("succesEE"));
+				showAlert(tr("successTicket"), tr("successTicketEE"));
 			}
 			else {
 				sendTicketWithAttachment();
-				showAlert(tr("succes"), tr("succesEE"));
+				showAlert(tr("successTicket"), tr("successTicketEE"));
 				_attachedFiles.clean();
 			}
 		}

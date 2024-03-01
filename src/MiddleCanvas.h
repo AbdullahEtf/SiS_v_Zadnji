@@ -71,8 +71,7 @@ protected:
     td::String status;
     gui::Rect rectBottomRight;
     gui::Point mousePosition;
-    td::INT4 predmetID;
-    td::String _subjectname;
+
 
 
     std::vector <gui::Circle> _emojis;
@@ -100,7 +99,6 @@ protected:
 
     gui::Canvas* farleft;
 
-    td::INT4 IDTicket = -1;
 
 
     td::INT4 openChatButtonPressed = -1;
@@ -855,6 +853,7 @@ public:
         _name = s;
         str = "";
         _chatUserID = userID;
+        _otvoreno = false;
         _h = 450;
 
         reDraw();
@@ -891,9 +890,8 @@ public:
             getSize(sz);
             td::INT4 h1;
             if (_h > sz.height) {
-               h1 = _h;
+                h1 = _h;
             }
-            
             else {
                 h1 = sz.height;
             }
@@ -915,76 +913,6 @@ public:
                 reDraw();
                 // showAlert("OK","PRITISNUTO DUGME");
             }
-
-
-           
-              x1 = x / 4;
-            y1 = h1 - y / 2;
-            xd = pow(xid - x1, 2);
-             yd = pow(yid - y1, 2);
-             d = sqrt(xd + yd);
-
-            if (d <= x / 6) {
-                _otvoreno=!_otvoreno;
-                reDraw();
-            }
-            //za add dugme kad se klikne
-            //_otvoreno=!_otvoreno;
-            //reDraw()
-
-            if (_otvoreno) {
-
-                td::INT4 x1 = x / 4 + 20;
-                td::INT4 y1 = h1 - y - 77;
-
-
-                for (int i = 0; i < 5; i++) {
-
-
-
-                    xd = pow(xid - x1, 2);
-                    yd = pow(yid - y1, 2);
-                    d = sqrt(xd + yd);
-                    x1 += 40;
-                    if (d <= 20) {
-                        /*  char l[100];
-                          sprintf(l, "pritisnuto %d", i + 1);
-                          showAlert("OK", l);*/
-                          // insertBlob(i + 1);
-                        char l1[100];
-                        sprintf(l1, "blob%d", i + 1);
-                        msg.sendMsgtoUser("chat", l1, _chatUserID, 0);
-                        reDraw();
-                        return;
-                    }
-
-                }
-                x1 = x / 4 + 20;
-                y1 = h1 - y - 27;
-                for (int i = 5; i < 10; i++) {
-
-                    xd = pow(xid - x1, 2);
-                    yd = pow(yid - y1, 2);
-                    d = sqrt(xd + yd);
-                    x1 += 40;
-                    if (d <= 20) {
-                        /*   char l[100];
-                           sprintf(l, "pritisnuto %d", i + 1);
-                           showAlert("OK", l);*/
-                           //insertBlob(i + 1);
-                        char l1[100];
-                        sprintf(l1, "blob%d", i + 1);
-                        msg.sendMsgtoUser("chat", l1, _chatUserID, 0); 
-                        reDraw();
-                        return;
-                    }
-
-                }
-
-
-
-            }
-
 
 
 
@@ -1017,13 +945,13 @@ public:
                     d = sqrt(xd + yd);
                     x1 += 40;
                     if (d <= 20) {
-                      /*  char l[100];
-                        sprintf(l, "pritisnuto %d", i + 1);  
-                        showAlert("OK", l);*/
-                       // insertBlob(i + 1);
+                        /*  char l[100];
+                          sprintf(l, "pritisnuto %d", i + 1);
+                          showAlert("OK", l);*/
+                          // insertBlob(i + 1);
                         char l1[100];
                         sprintf(l1, "blob%d", i + 1);
-                        msg.sendMsgtoUser("chat", l1, _chatUserID);
+                        msg.sendMsgtoUser("chat", l1, _chatUserID, 1);
                         reDraw();
                         return;
                     }
@@ -1038,13 +966,13 @@ public:
                     d = sqrt(xd + yd);
                     x1 += 40;
                     if (d <= 20) {
-                     /*   char l[100];
-                        sprintf(l, "pritisnuto %d", i + 1);
-                        showAlert("OK", l);*/
-                        //insertBlob(i + 1);
+                        /*   char l[100];
+                           sprintf(l, "pritisnuto %d", i + 1);
+                           showAlert("OK", l);*/
+                           //insertBlob(i + 1);
                         char l1[100];
                         sprintf(l1, "blob%d", i + 1);
-                        msg.sendMsgtoUser("chat", l1, _chatUserID);
+                        msg.sendMsgtoUser("chat", l1, _chatUserID, 1);
                         reDraw();
                         return;
                     }
