@@ -76,11 +76,14 @@ protected:
 
     std::vector <gui::Circle> _emojis;
 
+    gui::Rect uu;
+    gui::Shape _uu;
 
     
 
     bool _otvoreno;
     bool _blob;
+ 
 
     gui::Image _add;
     gui::Image _e1;
@@ -126,6 +129,7 @@ public:
         , _e9(":emoji9")
         , _e10(":emoji10")
         , _blob(false)
+       
  {
 
 
@@ -167,10 +171,14 @@ public:
             gui::Point cp(sz.width / 8, sz.height / 8);
             x = cp.x;
             y = cp.y;
+            showChat();
+            gui::Point tr;
+            getScroller()->getVisibleOrigin(tr);
+           
+           
 
 
-
-            gui::Rect r3(0, 1, 8 * x, y - 1);
+            gui::Rect r3(0, 1+tr.y, 8 * x, y - 1 + tr.y);
             _roundedRect3.createRoundedRect(r3, 20, 1, td::LinePattern::Solid);
             _roundedRect3.drawFill(td::ColorID::SkyBlue); //bar za prikazivanje osobe i sl 
 
@@ -182,19 +190,27 @@ public:
                 gui::DrawableString nesto = td::String(_name);
                 nesto.draw(r3, gui::Font::ID::SystemLargestBold, td::ColorID::Black, td::TextAlignment::Center, td::VAlignment::Center);
             }
-            showChat();
+            
+
+            //gui::Point tr;
+            //getScroller()->getVisibleOrigin(tr);
 
 
+
+
+            //gui::Rect r3(0, 1 + tr.y, 8 * x, y - 1 + tr.y);
+            //_roundedRect3.createRoundedRect(r3, 20, 1, td::LinePattern::Solid);
+            //_roundedRect3.drawFill(td::ColorID::SkyBlue); //bar za prikazivanje osobe i sl 
         
             if (_h > sz.height) {
-                gui::Rect r1(0, _h - y, sz.width, _h);
+                gui::Rect r1(0, sz.height- y+tr.y, sz.width, sz.height+tr.y);
 
                 td::INT4 pom = _h;
                 _roundedRect2.createRoundedRect(r1, 20, 1, td::LinePattern::Solid);
                 _roundedRect2.drawFill(td::ColorID::SkyBlue); //prostor u kojem se kucaju poruke
 
                 // gui::Rect r2(10, 7 * y, 8 * x - (16 + x / 6)*2, 8 * y);
-                gui::Rect r2((5 * x) / 12 + 10, _h - y, 8 * x - (16 + x / 6) * 2, _h);
+                gui::Rect r2((5 * x) / 12 + 10, sz.height - y + tr.y, 8 * x - (16 + x / 6) * 2, sz.height + tr.y);
 
                 //_roundedRect1.createRoundedRect(r2, 20, 1, td::LinePattern::Solid);
                 //_roundedRect1.drawFill(td::ColorID::Transparent); //prostor u kojem se nalaze poruke  
@@ -213,50 +229,50 @@ public:
                     mes.draw(r2, gui::Font::ID::SystemItalic, td::ColorID::Black, td::TextAlignment::Left, td::VAlignment::Center, td::TextEllipsize::End);
                 }
 
-                gui::Circle cc(8 * x - x / 4 - 7, _h - y / 2, 9 + x / 6);
+                gui::Circle cc(8 * x - x / 4 - 7, sz.height+tr.y- y / 2, 9 + x / 6);
                 //   gui::Circle cc(8 * x - x / 4 - 7, 7 * (_h/8) + (_h/8) / 2, 9 + x / 6);
                    // _shapeCircle.createCircle(cc, 15, td::LinePattern::Solid);
                    // _shapeCircle.drawFill(td::ColorID::MediumBlue); //dugme za slanje poruke 
                 img.draw(cc);
 
-                gui::Circle ccc(x / 4, _h - y / 2, x / 6);
+                gui::Circle ccc(x / 4, sz.height + tr.y - y / 2, x / 6);
                 _add.draw(ccc);
 
                 if (_otvoreno) {
 
 
-                    gui::Rect r5(x / 4, _h - y - 2, x / 4 + 200, _h - y - 102);
+                    gui::Rect r5(x / 4, sz.height + tr.y - y - 2, x / 4 + 200, sz.height + tr.y - y - 102);
                     _roundedRect5.createRoundedRect(r5, 20, 1, td::LinePattern::Solid);
                     _roundedRect5.drawFill(td::ColorID::Gray);
 
-                    gui::Circle e1(x / 4 + 20, _h - y - 77, 20);
+                    gui::Circle e1(x / 4 + 20, sz.height + tr.y - y - 77, 20);
                     _e1.draw(e1);
 
-                    gui::Circle e2(x / 4 + 60, _h - y - 77, 20);
+                    gui::Circle e2(x / 4 + 60, sz.height + tr.y - y - 77, 20);
                     _e2.draw(e2);
 
-                    gui::Circle e3(x / 4 + 100, _h - y - 77, 20);
+                    gui::Circle e3(x / 4 + 100, sz.height + tr.y - y - 77, 20);
                     _e3.draw(e3);
 
-                    gui::Circle e4(x / 4 + 140, _h - y - 77, 20);
+                    gui::Circle e4(x / 4 + 140, sz.height + tr.y - y - 77, 20);
                     _e4.draw(e4);
 
-                    gui::Circle e5(x / 4 + 180, _h - y - 77, 20);
+                    gui::Circle e5(x / 4 + 180, sz.height + tr.y - y - 77, 20);
                     _e5.draw(e5);
 
-                    gui::Circle e6(x / 4 + 20, _h - y - 27, 20);
+                    gui::Circle e6(x / 4 + 20, sz.height + tr.y - y - 27, 20);
                     _e6.draw(e6);
 
-                    gui::Circle e7(x / 4 + 60, _h - y - 27, 20);
+                    gui::Circle e7(x / 4 + 60, sz.height + tr.y - y - 27, 20);
                     _e7.draw(e7);
 
-                    gui::Circle e8(x / 4 + 100, _h - y - 27, 20);
+                    gui::Circle e8(x / 4 + 100, sz.height + tr.y - y - 27, 20);
                     _e8.draw(e8);
 
-                    gui::Circle e9(x / 4 + 140, _h - y - 27, 20);
+                    gui::Circle e9(x / 4 + 140, sz.height + tr.y - y - 27, 20);
                     _e9.draw(e9);
 
-                    gui::Circle e10(x / 4 + 180, _h - y - 27, 20);
+                    gui::Circle e10(x / 4 + 180, sz.height + tr.y - y - 27, 20);
                     _e10.draw(e10);
 
                 }
@@ -354,6 +370,8 @@ public:
                 //slobodno mijenjati boje po zelji, ja sam odabrao random boje 
                // showChat();
                 getScroller()->setContentSize(sz);
+                
+                
         }
 
         // pogled za SAO ------ grupa 1
@@ -889,8 +907,10 @@ public:
             gui::Size sz;
             getSize(sz);
             td::INT4 h1;
+            gui::Point tr;
+            getScroller()->getVisibleOrigin(tr);
             if (_h > sz.height) {
-                h1 = _h;
+                h1 = sz.height+tr.y;
             }
             else {
                 h1 = sz.height;
@@ -910,8 +930,12 @@ public:
                 str = "";
                 //  showChat();
                 red = 1;
+                
+                    
+                
                 reDraw();
-                // showAlert("OK","PRITISNUTO DUGME");
+
+                  
             }
 
 
@@ -1068,6 +1092,7 @@ public:
             td::INT4 id = user_id;
             if (s1 == "blob1" || s1 == "blob2" || s1 == "blob3" || s1 == "blob4" || s1 == "blob5" || s1 == "blob6" || s1 == "blob7" || s1 == "blob8" || s1 == "blob9" || s1 == "blob10") {
                 _blob = true;
+                
                 if (s1 == "blob1") i = 1;
                 if (s1 == "blob2") i = 2;
                 if (s1 == "blob3") i = 3;
@@ -1121,6 +1146,7 @@ public:
                     gui::DrawableString nesto2 = s;
                     nesto2.draw(chat2, gui::Font::ID::SystemNormal, td::ColorID::Black);
                     dy += 25 * br + 15;
+                    
                 }
                 if (_blob) {
                     td::INT4 c1 = (8 * x - 250 + 8 * x - 10) / 2;
@@ -1129,6 +1155,7 @@ public:
                     _ee.draw(ee);
                     dy += 25 * 3 + 15;
                     _blob = false;
+                   
                 }
             }
             if (id == _chatUserID && id != Globals::_currentUserID) {
@@ -1141,6 +1168,7 @@ public:
                     gui::DrawableString nesto2 = s;
                     nesto2.draw(chat2, gui::Font::ID::SystemNormal, td::ColorID::Black);
                     dy += 25 * br + 15;
+                  
                 }
                 if (_blob) {
                     td::INT4 c1 = (8 * x - 250 + 8 * x - 10) / 2;
@@ -1149,6 +1177,7 @@ public:
                     _ee.draw(ee);
                     dy += 25 * 3 + 15;
                     _blob = false;
+                   
                 }
 
             }
@@ -1162,6 +1191,7 @@ public:
                     gui::DrawableString nesto = s;
                     nesto.draw(chat1, gui::Font::ID::SystemNormal, td::ColorID::Black);
                     dy += 25 * br + 15;
+                   
                 }
                 if (_blob) {
                     td::INT4 c1 = (10 + 250) / 2;
@@ -1170,16 +1200,24 @@ public:
                     _ee.draw(ee);
                     dy += 25 * 3 + 15;
                     _blob = false;
+                    
                 }
             }
-
-            if (dy > _h - y) {
-                _h += dy - _h + y + 5; //bilo +20
+            gui::Point tr;
+            getScroller()->getVisibleOrigin(tr);
+  
+           
+            if (dy > _h - y-25 ) {
+                td::INT4 delta = dy - _h + y;
+                _h += delta  ;
+              
+          
 
             }
-
+            
         }
-
+      
+        
     }
 
 
